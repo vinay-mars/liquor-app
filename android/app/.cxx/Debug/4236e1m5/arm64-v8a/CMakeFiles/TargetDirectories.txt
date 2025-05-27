@@ -1,0 +1,2 @@
+/home/vinay_mirchandani/Downloads/main-zilly/zilly_flutter_woocommerce_mobile_app/android/app/.cxx/Debug/4236e1m5/arm64-v8a/CMakeFiles/edit_cache.dir
+/home/vinay_mirchandani/Downloads/main-zilly/zilly_flutter_woocommerce_mobile_app/android/app/.cxx/Debug/4236e1m5/arm64-v8a/CMakeFiles/rebuild_cache.dir
