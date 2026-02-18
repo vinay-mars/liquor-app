@@ -10,14 +10,14 @@ class AppStrings{
   static const String baseUrl = 'https://liquor.marsintel.com/wp-json/wc/v3';
 
   /// zilly keys
-  static const String key = 'ck_58fbc8c362d743a98275b887f1c57922c67ee0ee';
-  static const String secret = 'cs_5e1ab64c824a48724015192de3548c769512c753';
+  static const String key = 'ck_7fc9fac31eda7c941a287dff12748fc169623715';
+  static const String secret = 'cs_76bbe8b329b75e526eed2950dc0b0a76e6c42d80';
 
   ///End Point
   static const String generalSettingsUrl = '/settings/general';
   static const String productUrl = '/products?';
   static const String productDetailsUrl = '/products/';
-  static const String productCategoriesUrl = '/products/categories';
+  static const String productCategoriesUrl = '/products/categories?parent=0';
   static const String categoryWiseProductUrl = '/products?category=';
   static const String registerUrl = '/customers';
   static const String loginUrl = '/wp-json/jwt-auth/v1/token';

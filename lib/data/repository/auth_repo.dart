@@ -10,29 +10,28 @@ import '../model/base_model/api_response.dart';
 class AuthRepo {
   final DioClient dioClient;
   final SharedPreferences sharedPreferences;
+
   AuthRepo({required this.dioClient, required this.sharedPreferences});
 
 
-  Future<ApiResponse> register(
-      BuildContext context,
+  Future<ApiResponse> register(BuildContext context,
       dynamic userName,
       dynamic userEmail,
-      dynamic userPassword,
-      ) async {
+      dynamic userPassword,) async {
     try {
-
       const String username = AppStrings.key;
       const String password = AppStrings.secret;
 
       // Encode username and password
-      final String basicAuth = 'Basic ${base64Encode(utf8.encode('$username:$password'))}';
+      final String basicAuth = 'Basic ${base64Encode(
+          utf8.encode('$username:$password'))}';
 
       Response response = await dioClient.post(
         AppStrings.registerUrl,
         queryParameters: {
-          "username" : userName,
-          "email" : userEmail,
-          "password" : userPassword,
+          "username": userName,
+          "email": userEmail,
+          "password": userPassword,
         },
         options: Options(headers: {
           "Content-Type": "application/json",
@@ -45,43 +44,34 @@ class AuthRepo {
     }
   }
 
-
   Future<ApiResponse> login(
       BuildContext context,
       String username,
-      String password
+      String password,
       ) async {
     try {
-      // Encode username and password
-      final String basicAuth = 'Basic ${base64Encode(utf8.encode('$username:$password'))}';
-
-      // Create Dio instance
       final Dio dio = Dio();
-      // https://liquor.marsintel.com/wp-admin/admin.php?page=wc-admin&path=%2Fcustomers
-      // Make POST request
+
       Response response = await dio.post(
-        "https://liquor.marsintel.com/demo/wordpress/themes/autonex/wp-json/jwt-auth/v3/token",
+        "https://liquor.marsintel.com/wp-json/jwt-auth/v1/token",
         data: {
           "username": username,
           "password": password,
         },
         options: Options(
-          headers: {
-            'Authorization': basicAuth,
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
+          contentType: Headers.formUrlEncodedContentType,
+          validateStatus: (status) => status != null && status < 500,
         ),
       );
 
-      // Return successful ApiResponse
+      print("✅ LOGIN RESPONSE: ${response.data}");
       return ApiResponse.withSuccess(response);
     } catch (e) {
-      print("Errrrrrrrrrrrrrrrrrrrrrrrrrr ${e}");
-
-      // Return error ApiResponse
+      print("❌ LOGIN ERROR: $e");
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
+
 
   Future<ApiResponse> forgetPassword(
       BuildContext context,

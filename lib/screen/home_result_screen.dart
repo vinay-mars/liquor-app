@@ -1,7 +1,9 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:zilly_flutter_woocommerce_mobile_app/screen/cart_screen.dart';
 import '../controller/cart_controller.dart';
 import '../controller/product_search_controller.dart';
 import '../utils/app_colors.dart';
@@ -81,23 +83,23 @@ class _HomeFilterScreenState extends State<HomeFilterScreen> {
                       fontSize: 16,
                       fontWeight: FontWeight.w500
                   ),),
-                  // actions: [
-                  //   Padding(
-                  //     padding: const EdgeInsets.symmetric(horizontal: 20),
-                  //     child: Obx(() => GestureDetector(
-                  //       onTap: (){
-                  //         Get.to(()=> CartScreen(fromDetails: true,));
-                  //       },
-                  //       child: badges.Badge(
-                  //         badgeContent: Text(cartController.cartItems.length.toString(),
-                  //           style: GoogleFonts.roboto(color: Colors.white,fontSize: 15),),
-                  //         child: Image.asset("assets/images/cart_icon.png",height: 20,width: 20,
-                  //           color: AppColors.appWhiteColor
-                  //         ),
-                  //       ),
-                  //     )),
-                  //   )
-                  // ],
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Obx(() => GestureDetector(
+                        onTap: (){
+                          Get.to(()=> CartScreen(fromDetails: true,));
+                        },
+                        child: badges.Badge(
+                          badgeContent: Text(cartController.cartItems.length.toString(),
+                            style: GoogleFonts.roboto(color: Colors.white,fontSize: 15),),
+                          child: Image.asset("assets/images/cart_icon.png",height: 20,width: 20,
+                            color: AppColors.appWhiteColor
+                          ),
+                        ),
+                      )),
+                    )
+                  ],
                 ),
                 body:
 
@@ -190,7 +192,7 @@ class _HomeFilterScreenState extends State<HomeFilterScreen> {
                                             item.image,
                                             width: 110,
                                             height: 110,
-                                            fit: BoxFit.cover,
+                                            // fit: BoxFit.cover,
                                           ),
                                         ),
                                       ),
