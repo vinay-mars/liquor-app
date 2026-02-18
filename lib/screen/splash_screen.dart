@@ -63,6 +63,19 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                 ),
               ),
+              generalSettingController.isLoading==false && generalSettingController.generalSettingData!=null?
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: const LinearProgressIndicator(
+                  ),
+                ),
+              ):
+
+              const SizedBox(),
             ],
           ),
           // bottomNavigationBar: BottomAppBar(
@@ -71,19 +84,19 @@ class _SplashScreenState extends State<SplashScreen> {
           //   child: Column(
           //     crossAxisAlignment: CrossAxisAlignment.center,
           //     children: [
+          //       // const SizedBox(height: 40),
+          //
           //       generalSettingController.isLoading==false && generalSettingController.generalSettingData!=null?
           //       const LinearProgressIndicator():
           //           const SizedBox(),
-          //       // const SizedBox(height: 16,),
-          //       // Text("grocery_store".tr
+          //       const SizedBox(height: 16,),
+          //       Text("grocery_store".tr
           //
-          //       //   ,style: GoogleFonts.roboto(
-          //       //   fontWeight: FontWeight.w500,
-          //       //   fontSize: 15,
-          //       //   color: AppColors.appWhiteColor,
-          //       // )
-          //
-          //         // ,),
+          //         ,style: GoogleFonts.roboto(
+          //         fontWeight: FontWeight.w500,
+          //         fontSize: 15,
+          //         color: AppColors.appWhiteColor,
+          //       )),
           //     ],
           //   ),
           // ),

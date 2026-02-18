@@ -35,7 +35,7 @@ class OrderRepo {
           "payment_method_title": paymentName,
           "customer_id": customerId,
           "set_paid": setPaid,
-          "billing": {"phone": billing},
+          "billing":billing,
           "shipping": shipping,
           "line_items": lineItems,
         },
@@ -46,6 +46,8 @@ class OrderRepo {
       );
       return ApiResponse.withSuccess(response);
     } catch (e) {
+      print("Create Order ${e}");
+
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }

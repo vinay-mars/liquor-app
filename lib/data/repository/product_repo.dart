@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/app_strings.dart';
@@ -29,6 +30,7 @@ class ProductRepo {
           'Authorization': basicAuth,
         }),
       );
+      log("Responseeeeeeeeeee ${response.data}");
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

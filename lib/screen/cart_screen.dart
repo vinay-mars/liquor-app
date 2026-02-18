@@ -325,16 +325,21 @@ class CartScreen extends StatelessWidget {
                         minWidth: double.infinity,
                         color: AppColors.appPrimaryColor,
                         onPressed: () {
-                          Get.find<AuthController>().getAuthToken().isEmpty?
-                          Get.to(() =>  LoginScreen(selectedIndex: 3,)):
-                          Get.to(() => const CheckoutScreen());
+                          if (Get.find<AuthController>().getAuthToken().isEmpty) {
+                            // User not logged in -> directly go to checkout screen without prefilled address
+                            Get.to(() => const CheckoutScreen(isGuest: true));
+                          } else {
+                            // User logged in -> go to checkout screen with profile address loaded
+                            Get.to(() => const CheckoutScreen(isGuest: false));
+                          }
                         },
-                        child: Text('checkout'.tr,style: GoogleFonts.roboto(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                          color: AppColors.appWhiteColor
-                        ),),
+                        child: Text('checkout'.tr, style: GoogleFonts.roboto(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                            color: AppColors.appWhiteColor
+                        )),
                       ),
+
                     ],
                   ),
                 ),

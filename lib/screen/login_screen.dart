@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zilly_flutter_woocommerce_mobile_app/screen/bottom_navbar.dart';
@@ -131,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Container(
                         height: 220,
-                        color: AppColors.appPrimaryColor,
+                        color: AppColors.appWhiteColor,
                       ),
                         Opacity(
                             opacity: 0.4,
@@ -140,17 +142,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 24),
                             child: Container(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      const Color(0xff167A52).withOpacity(0.3),
-                                      const Color(0xff167A52),
-                                    ],
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                  ),
-                                ),
-                                child: Image.asset("assets/images/splash_logo.png",height: 60,width: 180,)),
+                                // decoration: BoxDecoration(
+                                //   gradient: LinearGradient(
+                                //     colors: [
+                                //       const Color(0xff167A52).withOpacity(0.3),
+                                //       const Color(0xff167A52),
+                                //     ],
+                                //     begin: Alignment.topCenter,
+                                //     end: Alignment.bottomCenter,
+                                //   ),
+                                // ),
+                                child: SvgPicture.asset("assets/images/mars_logo.svg",height: 60,width: 180,)),
                           ),
                         ),
 
@@ -158,177 +160,193 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 16,right: 16,top: 24
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1), // soft shadow
+                          blurRadius: 8, // how soft the shadow is
+                          offset: const Offset(0, 0), // Shadow evenly around the container
+                        ),
+                      ],
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16),
+                      ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 16,right: 16,top: 24
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
 
-                        Text("sign_in".tr,style: GoogleFonts.roboto(
-                            color: AppColors.appBlackColor,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold
-                        ),),
+                          Text("sign_in".tr,style: GoogleFonts.roboto(
+                              color: AppColors.appBlackColor,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold
+                          ),),
 
-                        Text("welcome_back".tr,style: GoogleFonts.roboto(
-                            color: AppColors.appWelcomeBackTxtColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal
-                        ),),
+                          Text("welcome_back".tr,style: GoogleFonts.roboto(
+                              color: AppColors.appWelcomeBackTxtColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal
+                          ),),
 
-                        const SizedBox(height: 45,),
+                          const SizedBox(height: 45,),
 
-                        Text("email".tr,style: GoogleFonts.roboto(
-                            color: AppColors.appBlackColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500
-                        ),),
+                          Text("email".tr,style: GoogleFonts.roboto(
+                              color: AppColors.appBlackColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500
+                          ),),
 
-                        const SizedBox(height: 8,),
+                          const SizedBox(height: 8,),
 
-                        // Username TextField
-                        TextField(
-                          controller: _usernameController,
-                          decoration: InputDecoration(
+                          // Username TextField
+                          TextField(
+                            controller: _usernameController,
+                            decoration: InputDecoration(
+                                filled: true,
+                                fillColor: AppColors.appTextFieldFillColor,
+                                hintText: "type_email".tr,
+                                hintStyle: GoogleFonts.roboto(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 14,
+                                    color: AppColors.appTextFieldHintColor
+                                ),
+                                border: InputBorder.none
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                          ),
+
+                          const SizedBox(height: 22),
+
+                          Text("password".tr,style: GoogleFonts.roboto(
+                              color: AppColors.appBlackColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500
+                          ),),
+
+                          const SizedBox(height: 8,),
+                          TextField(
+                            controller: _passwordController,
+                            decoration: InputDecoration(
+                              suffixIcon: GestureDetector(
+                                  onTap: (){
+                                    setState(() {
+                                      obSecureText = !obSecureText;
+                                    });
+                                  },
+                                  child:  Icon(obSecureText ? CupertinoIcons.eye_slash : CupertinoIcons.eye,color:AppColors.appWelcomeBackTxtColor,)),
                               filled: true,
                               fillColor: AppColors.appTextFieldFillColor,
-                              hintText: "type_email".tr,
+                              hintText: "type_password".tr,
                               hintStyle: GoogleFonts.roboto(
                                   fontWeight: FontWeight.normal,
                                   fontSize: 14,
                                   color: AppColors.appTextFieldHintColor
                               ),
-                              border: InputBorder.none
+                              border: InputBorder.none,
+                            ),
+                            obscureText: obSecureText,
                           ),
-                          keyboardType: TextInputType.emailAddress,
-                        ),
 
-                        const SizedBox(height: 22),
+                          const SizedBox(height: 12),
 
-                        Text("password".tr,style: GoogleFonts.roboto(
-                            color: AppColors.appBlackColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500
-                        ),),
-
-                        const SizedBox(height: 8,),
-                        TextField(
-                          controller: _passwordController,
-                          decoration: InputDecoration(
-                            suffixIcon: GestureDetector(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
                                 onTap: (){
-                                  setState(() {
-                                    obSecureText = !obSecureText;
-                                  });
+                                  Get.to(()=> ForgetPasswordScreen());
                                 },
-                                child: const Icon(Icons.remove_red_eye_rounded,color: AppColors.appWelcomeBackTxtColor,)),
-                            filled: true,
-                            fillColor: AppColors.appTextFieldFillColor,
-                            hintText: "type_password".tr,
-                            hintStyle: GoogleFonts.roboto(
-                                fontWeight: FontWeight.normal,
-                                fontSize: 14,
-                                color: AppColors.appTextFieldHintColor
-                            ),
-                            border: InputBorder.none,
+                                child: Text("Forgot Password?",style: GoogleFonts.roboto(
+                                    color: AppColors.appPrimaryColor,
+                                    fontSize: 12,
+                                    decoration: TextDecoration.underline,
+                                    decorationStyle: TextDecorationStyle.solid,
+                                    decorationColor: AppColors.appPrimaryColor
+                                ),),
+                              )
+                            ],
                           ),
-                          obscureText: obSecureText,
-                        ),
 
-                        const SizedBox(height: 12),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            GestureDetector(
-                              onTap: (){
-                                Get.to(()=> ForgetPasswordScreen());
-                              },
-                              child: Text("Forgot Password?",style: GoogleFonts.roboto(
-                                  color: AppColors.appPrimaryColor,
-                                  fontSize: 12,
-                                  decoration: TextDecoration.underline,
-                                  decorationStyle: TextDecorationStyle.solid,
-                                  decorationColor: AppColors.appPrimaryColor
-                              ),),
-                            )
-                          ],
-                        ),
-
-                        const SizedBox(height: 45),
-                        // Login Button
-                        authController.isLoadingLogin==false?
-                        Center(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(4),
-                            child: MaterialButton(
-                              color: AppColors.appPrimaryColor,
-                              onPressed: () {
-                                authController.login(
-                                    context,
-                                    _usernameController.text.toString(),
-                                    _passwordController.text.toString(),
-                                     widget.selectedIndex
-                                );
-                              },
-                              height: 45,
-                              minWidth: double.infinity,
-                              child: Text('login'.tr,style: GoogleFonts.roboto(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.appWhiteColor
-                              ),),
+                          const SizedBox(height: 45),
+                          // Login Button
+                          authController.isLoadingLogin==false?
+                          Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(4),
+                              child: MaterialButton(
+                                color: AppColors.appPrimaryColor,
+                                onPressed: () {
+                                  authController.login(
+                                      context,
+                                      _usernameController.text.toString(),
+                                      _passwordController.text.toString(),
+                                       widget.selectedIndex
+                                  );
+                                },
+                                height: 45,
+                                minWidth: double.infinity,
+                                child: Text('login'.tr,style: GoogleFonts.roboto(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.appWhiteColor
+                                ),),
+                              ),
+                            ),
+                          ):
+                           const Center(
+                            child: SizedBox(
+                              height: 22,
+                              width: 22,
+                              child: CircularProgressIndicator(
+                                color: AppColors.appPrimaryColor,
+                              ),
                             ),
                           ),
-                        ):
-                         const Center(
-                          child: SizedBox(
-                            height: 22,
-                            width: 22,
-                            child: CircularProgressIndicator(
-                              color: AppColors.appPrimaryColor,
-                            ),
-                          ),
-                        ),
 
-                        const SizedBox(height: 16,),
+                          const SizedBox(height: 16,),
 
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("don_have_acc".tr,style: GoogleFonts.roboto(
-                                color: AppColors.appBlackColor
-                            ),),
-                            GestureDetector(
-                              onTap: (){
-                                Get.to(()=> RegisterScreen());
-                              },
-                              child: Text("sign_up".tr,style: GoogleFonts.roboto(
-                                  color: AppColors.appPrimaryColor,
-                                  fontSize: 12,
-                                  decoration: TextDecoration.underline,
-                                  decorationStyle: TextDecorationStyle.solid,
-                                  decorationColor: AppColors.appPrimaryColor
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("don_have_acc".tr,style: GoogleFonts.roboto(
+                                  color: AppColors.appBlackColor
                               ),),
-                            ),
-                          ],
-                        ),
+                              GestureDetector(
+                                onTap: (){
+                                  Get.to(()=> RegisterScreen());
+                                },
+                                child: Text("sign_up".tr,style: GoogleFonts.roboto(
+                                    color: AppColors.appPrimaryColor,
+                                    fontSize: 12,
+                                    decoration: TextDecoration.underline,
+                                    decorationStyle: TextDecorationStyle.solid,
+                                    decorationColor: AppColors.appPrimaryColor
+                                ),),
+                              ),
+                            ],
+                          ),
 
-                        const SizedBox(height: 16,),
+                          const SizedBox(height: 16,),
 
-                        Center(
-                          child: TextButton(onPressed: (){
-                            Get.to(()=> BottomNavbar(selectedIndex: 0,),transition: Transition.leftToRight);
-                          }
-                              , child: Text("Continue as Guest",style: GoogleFonts.roboto(
-                                fontSize: 14,fontWeight: FontWeight.w500
-                              ),)),
-                        ),
+                          Center(
+                            child: TextButton(onPressed: (){
+                              Get.to(()=> BottomNavbar(selectedIndex: 0,),transition: Transition.leftToRight);
+                            }
+                                , child: Text("Continue as Guest",style: GoogleFonts.roboto(
+                                  fontSize: 14,fontWeight: FontWeight.w500
+                                ),)),
+                          ),
 
-                        const SizedBox(height: 50,),
-                      ],
+                          const SizedBox(height: 50,),
+                        ],
+                      ),
                     ),
                   ),
 

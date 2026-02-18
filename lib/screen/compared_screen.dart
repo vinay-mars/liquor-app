@@ -138,13 +138,14 @@ class _ComparedScreenState extends State<ComparedScreen> {
                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                            children: [
                                              Text(
-                                               '${box.read("currency")}${double.parse(cartController.compareItems[index].price.toString()).toStringAsFixed(2)}',
+                                               '${box.read("currency")}${(double.tryParse(cartController.compareItems[index].price?.toString() ?? '0') ?? 0.0).toStringAsFixed(2)}',
                                                style: GoogleFonts.roboto(
                                                  fontSize: 18,
                                                  fontWeight: FontWeight.w500,
                                                  color: AppColors.appBlackColor,
                                                ),
                                              ),
+
                                              IconButton(onPressed: (){
                                                cartController.removeItemFromCompare(cartController.compareItems[index].product_id);
                                              }, icon: const Icon(Icons.delete_outline,))
