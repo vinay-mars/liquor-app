@@ -6,7 +6,9 @@ import 'my_order_screen.dart';
 
 
 class OrderSuccessScreen extends StatelessWidget {
-  const OrderSuccessScreen({super.key});
+  final bool isGuest; // add this
+  const OrderSuccessScreen({super.key, this.isGuest = false});
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,7 @@ class OrderSuccessScreen extends StatelessWidget {
                 onPressed: () {
                   Get.offAll(()=> MyOrderScreen(
                     orderPage: true,
+                      isGuest: isGuest
                   ));
                 },
                 style: ElevatedButton.styleFrom(

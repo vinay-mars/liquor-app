@@ -59,6 +59,7 @@ final Map<String, String> english = {
   'total_item': "Total Item : ",
   'order_date': "Order Date : ",
   'shipping_addressed': "Shipping Address",
+  'billing_address':"Billing Address",
   'order_details': "Order Details",
   'order_status': "Order Status",
   'items': "Items",

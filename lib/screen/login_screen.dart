@@ -152,7 +152,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 //     end: Alignment.bottomCenter,
                                 //   ),
                                 // ),
-                                child: SvgPicture.asset("assets/images/mars_logo.svg",height: 60,width: 180,)),
+                                child:  Image.asset(
+                                  'assets/images/liquorlylogo.png',height: 60,width: 180,)),
                           ),
                         ),
 

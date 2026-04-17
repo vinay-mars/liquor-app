@@ -152,9 +152,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               child:
                                                                   SizedBox()),
                                                           Center(
-                                                              child: SvgPicture
-                                                                  .asset(
-                                                            "assets/images/mars_logo.svg",
+                                                              child:  Image.asset(
+                                                                'assets/images/liquorlylogo.png',
                                                             height: 30,
                                                             width: 80,
                                                           )),
@@ -819,8 +818,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ))),
                             const Expanded(flex: 4, child: SizedBox()),
                             Center(
-                                child: SvgPicture.asset(
-                              "assets/images/mars_logo.svg",
+                                child:  Image.asset(
+                                  'assets/images/liquorlylogo.png',
                               height: 35,
                               width: 90,
                             )),

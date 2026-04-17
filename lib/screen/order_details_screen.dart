@@ -353,7 +353,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
                       const SizedBox(height: 20),
 
-                      Text("shipping_address".tr,style: GoogleFonts.roboto(
+                      Text("billing_address".tr,style: GoogleFonts.roboto(
                           fontSize: 16,
                           fontWeight: FontWeight.w500
                       ),),
@@ -370,11 +370,19 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 12),
-                          child: Text("${orderController.orderDetailsData["shipping"]["address_1"]} ${orderController.orderDetailsData["shipping"]["city"]} ${orderController.orderDetailsData["shipping"]["postcode"]}",style: GoogleFonts.roboto(
-                              fontSize: 15
+                          child: Text(
+                            [
+                              "${orderController.orderDetailsData["billing"]["first_name"]} ${orderController.orderDetailsData["billing"]["last_name"]}",
+                              orderController.orderDetailsData["billing"]["email"],
+                              orderController.orderDetailsData["billing"]["phone"],
+                              orderController.orderDetailsData["billing"]["address_1"],
+                              orderController.orderDetailsData["billing"]["city"],
+                              orderController.orderDetailsData["billing"]["postcode"],
+                            ].where((s) => s != null && s.toString().trim().isNotEmpty).join('\n'),
+                            style: GoogleFonts.roboto(fontSize: 15),
                           ),),
                         ),
-                      ),
+
 
                       const SizedBox(height: 20),
                     ],

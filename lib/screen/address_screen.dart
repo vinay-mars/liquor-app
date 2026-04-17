@@ -39,14 +39,15 @@ class _AddressScreenState extends State<AddressScreen> {
     // TODO: implement initState
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Get.find<ProfileController>().getProfileData().then((value) {
-        _firstNameController.text = profileController.profileData["shipping"]["first_name"]??"";
-        _lastNameController.text = profileController.profileData["shipping"]["last_name"]??"";
-        _address1Controller.text = profileController.profileData["shipping"]["address_1"]??"";
-        _address2Controller.text = profileController.profileData["shipping"]["address_2"]??"";
-        _cityController.text = profileController.profileData["shipping"]["city"]??"";
-        _postcodeController.text = profileController.profileData["shipping"]["postcode"]??"";
-        _stateController.text = profileController.profileData["shipping"]["state"]??"";
-        _phoneNumberController.text = profileController.profileData["billing"]["phone"]??"";
+        _firstNameController.text = profileController.profileData["billing"]["first_name"] ?? "";
+        _lastNameController.text = profileController.profileData["billing"]["last_name"] ?? "";
+        _address1Controller.text = profileController.profileData["billing"]["address_1"] ?? "";
+        _address2Controller.text = profileController.profileData["billing"]["address_2"] ?? "";
+        _cityController.text = profileController.profileData["billing"]["city"] ?? "";
+        _postcodeController.text = profileController.profileData["billing"]["postcode"] ?? "";
+        _stateController.text = profileController.profileData["billing"]["state"] ?? "";
+        _phoneNumberController.text = profileController.profileData["billing"]["phone"] ?? "";
+
       });
     });
 
@@ -227,7 +228,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                     postCode: postcode,
                                     state: state,
                                     phone: phoneNumber);
-                              }
+                                Navigator.pop(context);                              }
                             });
 
                           }

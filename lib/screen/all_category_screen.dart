@@ -74,26 +74,34 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      imageSrc.toString().endsWith("svg") ?        CircleAvatar(
+                      imageSrc.toString().endsWith("svg")
+                          ? CircleAvatar(
                           radius: 30,
                           backgroundColor: AppColors.appCategoryBgColor,
-                          child: SvgPicture.network(imageSrc)) :
-                      CircleAvatar(
+                          child: SvgPicture.network(imageSrc))
+                          : imageSrc != null && imageSrc != false
+                          ? CircleAvatar(
                         radius: 30,
                         backgroundColor: AppColors.appCategoryBgColor,
-                        child: imageSrc != null  && imageSrc != false
-                            ? Image.network(
-                          imageSrc,
-                        )
-                            : null,
+                        child: ClipOval(
+                          child: Image.network(
+                            imageSrc,
+                            width: 60,
+                            height: 60,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
+                          : CircleAvatar(
+                        radius: 30,
+                        backgroundColor: AppColors.appCategoryBgColor,
+                        child: Image.asset("assets/images/default_image.jpg"),
                       ),
                       const SizedBox(height: 6),
                       Text(
                         name.replaceAll("&amp;", "&"),
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.roboto(
-                          fontSize: 14,
-                        ),
+                        style: GoogleFonts.roboto(fontSize: 14),
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 2),
