@@ -103,6 +103,13 @@ class ProfileRepo {
         data: {
           "billing": {
             "phone": phone,
+            "first_name": firstName,
+            "last_name": lastName,
+            "address_1": address1,
+            "address_2": address2,
+            "city": city,
+            "state": state,
+            "postcode": postCode,
           },
           "shipping": {
             "first_name": firstName,

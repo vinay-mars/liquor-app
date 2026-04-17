@@ -11,7 +11,8 @@ import 'order_details_screen.dart';
 
 class MyOrderScreen extends StatefulWidget {
   bool? orderPage;
-  MyOrderScreen({super.key,this.orderPage});
+  bool isGuest;
+  MyOrderScreen({super.key, this.orderPage, this.isGuest = false});
 
   @override
   State<MyOrderScreen> createState() => _MyOrderScreenState();
@@ -29,11 +30,12 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
   }
 
   int? customerId; // Changed to int? to properly handle nullable types
-
+  String? guestEmail;
   Future<void> _loadCustomerId() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       customerId = preferences.getInt("customerId");
+      guestEmail = preferences.getString("guestEmail");
     });
     print("check Id >>> $customerId");
     // You might want to trigger a refresh if customerId is changed
@@ -86,8 +88,10 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
             itemBuilder: (context, index) {
               var order = orderController.orderData[index];
               // Ensure customerId is not null and match the integer type
-              if (order["customer_id"].toString() == customerId.toString()) {
-                return GestureDetector(
+              if (widget.isGuest
+                  ? (order["customer_id"] == 0 &&
+                  order["billing"]["email"].toString() == guestEmail)
+                  : order["customer_id"].toString() == customerId.toString()) {                return GestureDetector(
                   onTap: (){
                     Get.to(()=> OrderDetailsScreen(
                       id: order["id"],

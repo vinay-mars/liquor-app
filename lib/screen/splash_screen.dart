@@ -52,8 +52,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     child: Animate(
                       effects: const [FadeEffect(), ScaleEffect()],
                       child: Center(
-                        child: SvgPicture.asset(
-                          'assets/images/mars_logo.svg',
+                        child: Image.asset(
+                          'assets/images/liquorlylogo.png',
                           height: 65,
                           width: 180,
                         ),
