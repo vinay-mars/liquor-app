@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/screen/bottom_navbar.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/screen/forget_password_screen.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/screen/home_screen.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/screen/register_screen.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/utils/app_colors.dart';
+import 'package:pringles_fine_wine/screen/age_gate_screen.dart';
+import 'package:pringles_fine_wine/screen/bottom_navbar.dart';
+import 'package:pringles_fine_wine/screen/forget_password_screen.dart';
+import 'package:pringles_fine_wine/screen/register_screen.dart';
+import 'package:pringles_fine_wine/utils/app_colors.dart';
 import '../controller/auth_controller.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,6 +25,16 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   bool obSecureText = true;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (GetStorage().read('age_verified') != true) {
+        Get.to(() => const AgeGateScreen());
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 // decoration: BoxDecoration(
                                 //   gradient: LinearGradient(
                                 //     colors: [
-                                //       const Color(0xff167A52).withOpacity(0.3),
+                                //       const Color(0xff167A52).withValues(alpha: 0.3),
                                 //       const Color(0xff167A52),
                                 //     ],
                                 //     begin: Alignment.topCenter,
@@ -153,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 //   ),
                                 // ),
                                 child:  Image.asset(
-                                  'assets/images/liquorlylogo.png',height: 60,width: 180,)),
+                                  'assets/images/pringlesWineLogo.jpeg',height: 60,width: 180,)),
                           ),
                         ),
 
@@ -166,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1), // soft shadow
+                          color: Colors.black.withValues(alpha: 0.1), // soft shadow
                           blurRadius: 8, // how soft the shadow is
                           offset: const Offset(0, 0), // Shadow evenly around the container
                         ),
@@ -321,7 +331,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),),
                               GestureDetector(
                                 onTap: (){
-                                  Get.to(()=> RegisterScreen());
+                                  Get.to(()=> const RegisterScreen());
                                 },
                                 child: Text("sign_up".tr,style: GoogleFonts.roboto(
                                     color: AppColors.appPrimaryColor,

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/controller/general_setting_controller.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/utils/app_colors.dart';
+import 'package:pringles_fine_wine/controller/general_setting_controller.dart';
+import 'package:pringles_fine_wine/utils/app_colors.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,20 +18,9 @@ class _SplashScreenState extends State<SplashScreen> {
     return GetBuilder<GeneralSettingController>(
       builder: (generalSettingController) {
         return Scaffold(
-          backgroundColor: AppColors.appPrimaryColor,
+          backgroundColor: AppColors.appWhiteColor,
           body: Stack(
             children: [
-              Positioned(
-                child: Opacity(
-                  opacity: 0.8,
-                  child: Image.asset(
-                    "assets/images/splash_image.png",
-                    height: double.infinity,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
               Positioned(
                 top: 280,
                 child: Center(
@@ -42,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     // decoration: BoxDecoration(
                     //   gradient: LinearGradient(
                     //     colors: [
-                    //       const Color(0xff167A52).withOpacity(0.3),
+                    //       const Color(0xff167A52).withValues(alpha: 0.3),
                     //       const Color(0xff167A52),
                     //     ],
                     //     begin: Alignment.topCenter,
@@ -53,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       effects: const [FadeEffect(), ScaleEffect()],
                       child: Center(
                         child: Image.asset(
-                          'assets/images/liquorlylogo.png',
+                          'assets/images/pringlesWineLogo.jpeg',
                           height: 65,
                           width: 180,
                         ),
@@ -64,13 +51,13 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ),
               generalSettingController.isLoading==false && generalSettingController.generalSettingData!=null?
-              Positioned(
+              const Positioned(
                 left: 0,
                 right: 0,
                 bottom: 0,
                 child: SizedBox(
                   width: double.infinity,
-                  child: const LinearProgressIndicator(
+                  child: LinearProgressIndicator(
                   ),
                 ),
               ):

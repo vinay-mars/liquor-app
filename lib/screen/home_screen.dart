@@ -6,18 +6,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/controller/profile_controller.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/screen/compared_screen.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/screen/deals_offer_screen.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/screen/privacy_screen.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/utils/app_colors.dart';
+import 'package:pringles_fine_wine/controller/profile_controller.dart';
+import 'package:pringles_fine_wine/screen/compared_screen.dart';
+import 'package:pringles_fine_wine/screen/deals_offer_screen.dart';
+import 'package:pringles_fine_wine/screen/privacy_screen.dart';
+import 'package:pringles_fine_wine/utils/app_colors.dart';
 import '../controller/auth_controller.dart';
 import '../controller/cart_controller.dart';
 import '../controller/product_category_controller.dart';
 import '../controller/product_controller.dart';
 import '../utils/local_widget.dart';
 import 'about_us_screen.dart';
-import 'category_wise_product_screen.dart';
 import 'details_screen.dart';
 import 'home_result_screen.dart';
 import 'login_screen.dart';
@@ -87,8 +86,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 drawer: Drawer(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(0)),
-                  child: Container(
+                  child: SizedBox(
                     width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          color: AppColors.appWhiteColor,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 32),
+                          child: Image.asset(
+                            'assets/images/pringleslogo.jpeg',
+                            height: 70,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 appBar: AppBar(
@@ -109,8 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       showGeneralDialog(
                                         context: context,
                                         barrierColor: Colors.black12
-                                            .withOpacity(
-                                                0.6), // Background color
+                                            .withValues(alpha: 0.6), // Background color
                                         barrierDismissible: false,
                                         barrierLabel: 'Dialog',
                                         transitionDuration:
@@ -153,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   SizedBox()),
                                                           Center(
                                                               child:  Image.asset(
-                                                                'assets/images/liquorlylogo.png',
+                                                                'assets/images/pringlesWineLogo.jpeg',
                                                             height: 30,
                                                             width: 80,
                                                           )),
@@ -193,8 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                           30,
                                                                       backgroundColor: Colors
                                                                           .grey
-                                                                          .withOpacity(
-                                                                              0.7),
+                                                                          .withValues(alpha: 0.7),
                                                                       child: const Icon(
                                                                           Icons
                                                                               .person,
@@ -819,7 +831,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             const Expanded(flex: 4, child: SizedBox()),
                             Center(
                                 child:  Image.asset(
-                                  'assets/images/liquorlylogo.png',
+                                  'assets/images/pringlesWineLogo.jpeg',
                               height: 35,
                               width: 90,
                             )),
@@ -1062,10 +1074,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                               newValue);
                                                                           selectedCategoryId =
                                                                               selectedCategory["id"];
-
-                                                                          // Print the selected category ID
-                                                                          print(
-                                                                              'Selected Category ID: $selectedCategoryId');
                                                                         });
                                                                       },
                                                                       items: productCategoryController
@@ -1534,7 +1542,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   BoxShadow(
                                                     color: AppColors
                                                         .appPrimaryColor
-                                                        .withOpacity(0.5),
+                                                        .withValues(alpha: 0.5),
                                                     offset: const Offset(-2, 2),
                                                     blurRadius: 0,
                                                     spreadRadius: 1,
@@ -1571,7 +1579,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const EdgeInsets.symmetric(horizontal: 16),
                               child: Divider(
                                 color: AppColors.appProductBorderColor
-                                    .withOpacity(0.85),
+                                    .withValues(alpha: 0.85),
                               ),
                             ),
                             GetBuilder<CartController>(
@@ -1653,7 +1661,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               border: Border.all(
                                                   color: AppColors
                                                       .appProductBorderColor
-                                                      .withOpacity(0.85)),
+                                                      .withValues(alpha: 0.85)),
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                             ),
@@ -1816,8 +1824,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                         .favorite_outline,
                                                                     color: AppColors
                                                                         .appBlackColor
-                                                                        .withOpacity(
-                                                                            0.50),
+                                                                        .withValues(alpha: 0.50),
                                                                     size: 24,
                                                                   )),
                                                             ],

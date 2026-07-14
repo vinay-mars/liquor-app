@@ -1,10 +1,10 @@
 # Project-level configuration.
 cmake_minimum_required(VERSION 3.14)
-project(zilly_flutter_woocommerce_mobile_app LANGUAGES CXX)
+project(pringles_fine_wine LANGUAGES CXX)
 
 # The name of the executable created for the application. Change this to change
 # the on-disk name of your application.
-set(BINARY_NAME "zilly_flutter_woocommerce_mobile_app")
+set(BINARY_NAME "pringles_fine_wine")
 
 # Explicitly opt in to modern CMake behaviors to avoid warnings with recent
 # versions of CMake.

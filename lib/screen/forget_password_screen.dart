@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/screen/lost_password_response.dart';
+import 'package:pringles_fine_wine/screen/lost_password_response.dart';
 import '../controller/auth_controller.dart';
 import '../utils/app_colors.dart';
 
@@ -43,7 +43,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
-                                      AppColors.appPrimaryColor.withOpacity(0.2),
+                                      AppColors.appPrimaryColor.withValues(alpha: 0.2),
                                       AppColors.appPrimaryColor,
                                     ],
                                     begin: Alignment.topCenter,

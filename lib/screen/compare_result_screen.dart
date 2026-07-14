@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/controller/cart_controller.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/controller/product_controller.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/utils/app_colors.dart';
+import 'package:pringles_fine_wine/controller/cart_controller.dart';
+import 'package:pringles_fine_wine/controller/product_controller.dart';
+import 'package:pringles_fine_wine/utils/app_colors.dart';
 
 class CompareResultScreen extends StatefulWidget {
   const CompareResultScreen({super.key});

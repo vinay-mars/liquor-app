@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -197,15 +198,6 @@ class _AddressScreenState extends State<AddressScreen> {
                             final state = _stateController.text;
                             final phoneNumber = _phoneNumberController.text;
 
-                            // Perform your save action here, e.g., send data to a server or save locally
-                            print('First Name: $firstName');
-                            print('Last Name: $lastName');
-                            print('Address 1: $address1');
-                            print('Address 2: $address2');
-                            print('City: $city');
-                            print('Postcode: $postcode');
-                            print('State: $state');
-                            print('Phone Number: $phoneNumber');
                             //update
                             profileController.updateShippingAddress(
                               firstName: firstName,
@@ -218,7 +210,9 @@ class _AddressScreenState extends State<AddressScreen> {
                               phone: phoneNumber
                             ).then((value){
                               if(value==200){
-                                print("data saved locally");
+                                if (kDebugMode) {
+                                  print("data saved locally");
+                                }
                                 saveShippingDataLocally(
                                     firstName: firstName,
                                     lastName: lastName,

@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = zilly_flutter_woocommerce_mobile_app
+PRODUCT_NAME = pringles_fine_wine
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.zillyFlutterWoocommerceMobileApp
+PRODUCT_BUNDLE_IDENTIFIER = com.example.pringlesFineWine
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2024 com.example. All rights reserved.

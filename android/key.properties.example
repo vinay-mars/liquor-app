@@ -1,0 +1,4 @@
+storePassword=<the password you set for the keystore>
+keyPassword=<the password you set for the key alias>
+keyAlias=key0
+storeFile=<absolute or android/-relative path to release.jks>

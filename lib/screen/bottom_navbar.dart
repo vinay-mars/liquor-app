@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/screen/wishlist_screen.dart';
+import 'package:pringles_fine_wine/screen/wishlist_screen.dart';
 import '../controller/cart_controller.dart';
 import '../utils/app_colors.dart';
 import 'all_category_screen.dart';

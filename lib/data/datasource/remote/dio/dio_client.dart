@@ -3,7 +3,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -41,14 +40,9 @@ class DioClient{
   }
 
   void updateHeader(String token, String countryCode) {
-    token = (token == null ? this.token : token)!;
     // countryCode = countryCode == null ? this.countryCode == 'US' ? 'en': this.countryCode.toLowerCase(): countryCode == 'US' ? 'en' : countryCode.toLowerCase();
     this.token = token;
     this.countryCode = countryCode;
-    print('===Country code====>$countryCode');
-    if(kDebugMode){
-      print('===Token====>$token');
-    }
     dio?.options.headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
@@ -76,9 +70,9 @@ class DioClient{
     } on SocketException catch (e) {
       throw SocketException(e.toString());
     } on FormatException catch (_) {
-      throw FormatException("Unable to process the data");
+      throw const FormatException("Unable to process the data");
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -103,9 +97,9 @@ class DioClient{
       );
       return response;
     } on FormatException catch (_) {
-      throw FormatException("Unable to process the data");
+      throw const FormatException("Unable to process the data");
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -130,9 +124,9 @@ class DioClient{
       );
       return response;
     } on FormatException catch (_) {
-      throw FormatException("Unable to process the data");
+      throw const FormatException("Unable to process the data");
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 

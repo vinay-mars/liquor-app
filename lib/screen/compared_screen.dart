@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/controller/cart_controller.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/screen/compare_result_screen.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/utils/app_colors.dart';
+import 'package:pringles_fine_wine/controller/cart_controller.dart';
+import 'package:pringles_fine_wine/screen/compare_result_screen.dart';
+import 'package:pringles_fine_wine/utils/app_colors.dart';
 import 'details_screen.dart';
 
 class ComparedScreen extends StatefulWidget {

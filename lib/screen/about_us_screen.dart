@@ -38,13 +38,13 @@ class AboutUsScreen extends StatelessWidget {
             child: Column(
               children: [
                 Text('''
-Welcome to Zilly!
+Welcome to Pringles Wine!
 
-At Zilly, we're passionate about transforming the way you shop online. Our mission is to provide you with an unparalleled shopping experience that combines convenience, variety, and innovation. Whether you're hunting for the latest fashion trends, top-notch electronics, or unique home essentials, Zilly is your go-to destination for discovering and buying products that fit your lifestyle.
+At Pringles Wine, we're passionate about transforming the way you shop online. Our mission is to provide you with an unparalleled shopping experience that combines convenience, variety, and innovation. Whether you're hunting for the latest fashion trends, top-notch electronics, or unique home essentials, Pringles Wine is your go-to destination for discovering and buying products that fit your lifestyle.
 
 Our Story
 
-Zilly was born out of a vision to create a seamless and enjoyable shopping experience. We believe that shopping should be more than just a transaction—it should be an adventure. Our team is dedicated to curating a diverse range of high-quality products from trusted brands and sellers, all in one place. We strive to offer something for everyone, whether you're looking for everyday essentials or special treats.
+Pringles Wine was born out of a vision to create a seamless and enjoyable shopping experience. We believe that shopping should be more than just a transaction—it should be an adventure. Our team is dedicated to curating a diverse range of high-quality products from trusted brands and sellers, all in one place. We strive to offer something for everyone, whether you're looking for everyday essentials or special treats.
 
 What Sets Us Apart
 
@@ -58,11 +58,11 @@ Secure Shopping: We use state-of-the-art security measures to protect your perso
 
 Join Us on This Journey
 
-At Zilly, we're more than just an eCommerce platform—we're a community of enthusiastic shoppers and innovative thinkers. We invite you to explore our app, discover amazing products, and join us in redefining the future of online shopping.
+At Pringles Wine, we're more than just an eCommerce platform—we're a community of enthusiastic shoppers and innovative thinkers. We invite you to explore our app, discover amazing products, and join us in redefining the future of online shopping.
 
-Thank you for choosing Zilly. Happy shopping!
+Thank you for choosing Pringles Wine. Happy shopping!
 
-The Zilly Team
+The Pringles Wine Team
               ''',
                 style: GoogleFonts.roboto(
                   fontSize: 15

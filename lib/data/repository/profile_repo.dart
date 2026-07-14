@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/app_strings.dart';
 import '../datasource/remote/dio/dio_client.dart';
@@ -24,7 +25,9 @@ class ProfileRepo {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       dynamic customerId = preferences.getInt("customerId");
 
-      print("check Id >>> ${customerId}");
+      if (kDebugMode) {
+        print("check Id >>> $customerId");
+      }
 
       Response response = await dioClient.get(
         "${AppStrings.profileUrl}$customerId",
@@ -52,7 +55,9 @@ class ProfileRepo {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       dynamic customerId = preferences.getInt("customerId");
 
-      print("check Id >>> ${customerId}");
+      if (kDebugMode) {
+        print("check Id >>> $customerId");
+      }
 
       Response response = await dioClient.put(
         "${AppStrings.profileUrl}$customerId",
@@ -96,7 +101,9 @@ class ProfileRepo {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       dynamic customerId = preferences.getInt("customerId");
 
-      print("check Id >>> ${customerId}");
+      if (kDebugMode) {
+        print("check Id >>> $customerId");
+      }
 
       Response response = await dioClient.put(
         "${AppStrings.profileUrl}$customerId",
@@ -144,10 +151,12 @@ class ProfileRepo {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       dynamic customerId = preferences.getInt("customerId");
 
-      print("check Id >>> ${customerId}");
+      if (kDebugMode) {
+        print("check Id >>> $customerId");
+      }
 
       Response response = await dioClient.delete(
-        "https://www.radiustheme.com/demo/wordpress/themes/autonex/wp-json/wc/v3/customers/$customerId",
+        "${AppStrings.profileUrl}$customerId",
         options: Options(headers: {
           "Content-Type": "application/json",
           'Authorization': basicAuth,

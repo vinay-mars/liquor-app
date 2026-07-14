@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:html/parser.dart';
@@ -52,8 +53,10 @@ class GeneralSettingController extends GetxController{
           String? currencyValue;
 
           if (currencyDescription != null) {
-            print('Current Currency Code: $currentValue');
-            print('Currency Description: $currencyDescription');
+            if (kDebugMode) {
+              print('Current Currency Code: $currentValue');
+              print('Currency Description: $currencyDescription');
+            }
 
              currencyValue = extractCurrencyValue(currencyDescription);
 
@@ -61,17 +64,23 @@ class GeneralSettingController extends GetxController{
             if (containsOnlyEnglishCharacters(currencyValue)) {
               // Try to find another value in parentheses
               currencyValue = extractAlternativeCurrencyValue(currencyDescription);
-              print("only english>> $currencyValue");
+              if (kDebugMode) {
+                print("only english>> $currencyValue");
+              }
             }
             else{
               // Extract the currency value
               currencyValue = extractCurrencyValue(currencyDescription);
-              print("value>> $currencyValue");
+              if (kDebugMode) {
+                print("value>> $currencyValue");
+              }
             }
             final String realCurrency = decodeHtml(currencyValue!);
 
-            print('Current Currency Code: $currencyValue');
-            print('Real Currency Value: $realCurrency');
+            if (kDebugMode) {
+              print('Current Currency Code: $currencyValue');
+              print('Real Currency Value: $realCurrency');
+            }
 
             // Store data in GetStorage
             box.write('currency', realCurrency);
@@ -82,10 +91,14 @@ class GeneralSettingController extends GetxController{
             }
 
           } else {
-            print('Currency code not found in options.');
+            if (kDebugMode) {
+              print('Currency code not found in options.');
+            }
           }
         } else {
-          print('Currency setting not found.');
+          if (kDebugMode) {
+            print('Currency setting not found.');
+          }
         }
 
         update();
