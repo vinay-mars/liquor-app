@@ -50,3 +50,6 @@ assets/.env
 *.jks
 *.keystore
 key.properties
+
+# FVM Version Cache
+.fvm/

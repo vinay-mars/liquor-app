@@ -21,7 +21,11 @@ class ApiErrorHandler {
             errorDescription = "Send timeout with server";
             break;
           case DioExceptionType.unknown:
+          case DioExceptionType.connectionError:
             errorDescription = "Connection to server failed due to internet connection";
+            break;
+          case DioExceptionType.badCertificate:
+            errorDescription = "Server certificate could not be verified";
             break;
           case DioExceptionType.badResponse:
             if (error.response != null) {

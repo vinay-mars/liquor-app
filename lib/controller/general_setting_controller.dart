@@ -15,30 +15,28 @@ class GeneralSettingController extends GetxController{
 
   @override
   void onInit() {
-    // TODO: implement onInit
     getGeneralSettingData();
     super.onInit();
   }
 
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
+  final RxBool _isLoading = false.obs;
+  bool get isLoading => _isLoading.value;
 
   final box = GetStorage(); // GetStorage instance
 
-  dynamic generalSettingData;
+  final Rx<dynamic> _generalSettingData = Rx<dynamic>(null);
+  dynamic get generalSettingData => _generalSettingData.value;
 
 
   Future<dynamic> getGeneralSettingData() async {
-
-    _isLoading = true;
-    update();
+    _isLoading.value = true;
     ApiResponse apiResponse = await generalSettingRepo.getGeneralSettingData();
 
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-      _isLoading = false;
-      update();
+      _isLoading.value = false;
       if (apiResponse.response!.data != null) {
-        generalSettingData = apiResponse.response!.data!;
+        _generalSettingData.value = apiResponse.response!.data!;
+        final generalSettingData = _generalSettingData.value;
 
         // Find the currency settings
         final currencySetting = generalSettingData.firstWhere((setting) => setting['id'] == 'woocommerce_currency', orElse: () => null);
@@ -101,11 +99,9 @@ class GeneralSettingController extends GetxController{
           }
         }
 
-        update();
       }
     } else {
-      _isLoading = false;
-      update();
+      _isLoading.value = false;
     }
   }
 

@@ -17,7 +17,7 @@ import '../controller/product_category_controller.dart';
 import '../controller/product_controller.dart';
 import '../utils/local_widget.dart';
 import 'about_us_screen.dart';
-import 'details_screen.dart';
+  import 'details_screen.dart';
 import 'home_result_screen.dart';
 import 'login_screen.dart';
 import 'my_order_screen.dart';

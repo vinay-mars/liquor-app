@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pringles_fine_wine/screen/splash_screen.dart';
+import 'package:pringles_fine_wine/screen/bottom_navbar.dart';
 import 'package:pringles_fine_wine/utils/app_colors.dart';
 import 'controller/rtl_controller.dart';
 import 'di_container.dart' as di;
@@ -12,17 +12,48 @@ dynamic storage;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  //init
-  await initialConfig();
-  //initialize
-  storage = Get.find<StorageService>();
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return Container(
+      color: const Color(0xFFFFFF00),
+      alignment: Alignment.center,
+      padding: const EdgeInsets.all(16),
+      child: Text(
+        details.exceptionAsString(),
+        style: const TextStyle(color: Color(0xFF000000), fontSize: 12),
+      ),
+    );
+  };
 
-  // Initialize the TextDirectionController and load text direction from SharedPreferences
-  final rtlController = Get.put(TextDirectionController());
-  await rtlController.loadTextDirection();
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.presentError(details);
+  };
 
-  await di.init();
-  runApp(const MyApp());
+  try {
+    //init
+    await initialConfig();
+    //initialize
+    storage = Get.find<StorageService>();
+
+    // Initialize the TextDirectionController and load text direction from SharedPreferences
+    final rtlController = Get.put(TextDirectionController());
+    await rtlController.loadTextDirection();
+
+    await di.init();
+    runApp(const MyApp());
+  } catch (e, stack) {
+    runApp(MaterialApp(
+      home: Scaffold(
+        backgroundColor: const Color(0xFFFFFF00),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Text(
+            'STARTUP ERROR:\n$e\n\n$stack',
+            style: const TextStyle(color: Color(0xFF000000), fontSize: 11),
+          ),
+        ),
+      ),
+    ));
+  }
 }
 
 initialConfig() async {
@@ -50,7 +81,7 @@ class MyApp extends StatelessWidget {
               ColorScheme.fromSeed(seedColor: AppColors.appPrimaryColor),
           useMaterial3: true,
         ),
-        home: const SplashScreen(),
+        home: BottomNavbar(selectedIndex: 0),
         textDirection: textDirectionController.isRTL.value
             ? TextDirection.rtl
             : TextDirection.ltr,

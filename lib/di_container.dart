@@ -29,6 +29,12 @@ import 'data/repository/profile_repo.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  /// External pocket lock
+  final sharedPreferences = await SharedPreferences.getInstance();
+  sl.registerLazySingleton(() => sharedPreferences);
+  sl.registerLazySingleton(() => Dio());
+  sl.registerLazySingleton(() => LoggingInterceptor());
+
   /// Core
    sl.registerLazySingleton(() => DioClient(AppStrings.baseUrl, sl(), loggingInterceptor: sl(), sharedPreferences: sl()));
 
@@ -49,17 +55,9 @@ Future<void> init() async {
   Get.lazyPut(() =>  ProductController(productRepo: sl()), fenix: true);
   Get.lazyPut(() =>  ProductSearchController(productSearchRepo: sl()), fenix: true);
   Get.lazyPut(() =>  ProductCategoryController(productCategoryRepo: sl()), fenix: true);
-  Get.lazyPut(() =>  GeneralSettingController(generalSettingRepo: sl()), fenix: true);
+  Get.put(GeneralSettingController(generalSettingRepo: sl()), permanent: true);
   Get.lazyPut(() =>  OrderController(orderRepo: sl()), fenix: true);
   Get.lazyPut(() =>  CartController(),fenix: true);
   Get.lazyPut(() => LocaleController(), fenix: true);
   Get.lazyPut(() => TextDirectionController(), fenix: true);
-
-
-
-  /// External pocket lock
-  final sharedPreferences = await SharedPreferences.getInstance();
-  sl.registerLazySingleton(() => sharedPreferences);
-  sl.registerLazySingleton(() => Dio());
-  sl.registerLazySingleton(() => LoggingInterceptor());
 }
