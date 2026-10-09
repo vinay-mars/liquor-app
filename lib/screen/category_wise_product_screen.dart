@@ -14,7 +14,7 @@ class CategoryWiseProductScreen extends StatefulWidget {
   final dynamic id;
   final dynamic name;
 
-  CategoryWiseProductScreen({super.key, this.id, this.name});
+  const CategoryWiseProductScreen({super.key, this.id, this.name});
 
   @override
   State<CategoryWiseProductScreen> createState() => _CategoryWiseProductScreenState();
@@ -123,9 +123,6 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                     price: double.parse(product["price"].toString()),
                     variation_id: product["variations"].isNotEmpty? product["variations"][0]: null,
                   );
-
-                  // Create a unique key for each cart icon
-                  final GlobalKey cartIconKey = GlobalKey();
 
                   // Check if the item is already in the wishlist
                   bool isInWishlist = cartController.wishlistItems
@@ -261,7 +258,7 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                                     });
                                     cartController.addToWishlist(item);
                                   },
-                                  child: Icon(Icons.favorite_outline,color: AppColors.appBlackColor.withOpacity(0.50),size: 24,)),
+                                  child: Icon(Icons.favorite_outline,color: AppColors.appBlackColor.withValues(alpha: 0.50),size: 24,)),
                             ],
                           ):Image.asset("assets/images/wishlist_already.png",height: 28,width: 28,)),
 

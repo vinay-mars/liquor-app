@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "zilly_flutter_woocommerce_mobile_app" "\0"
+            VALUE "FileDescription", "pringles_fine_wine" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "zilly_flutter_woocommerce_mobile_app" "\0"
+            VALUE "InternalName", "pringles_fine_wine" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "zilly_flutter_woocommerce_mobile_app.exe" "\0"
-            VALUE "ProductName", "zilly_flutter_woocommerce_mobile_app" "\0"
+            VALUE "OriginalFilename", "pringles_fine_wine.exe" "\0"
+            VALUE "ProductName", "pringles_fine_wine" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

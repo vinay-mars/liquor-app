@@ -18,7 +18,7 @@ class CartController extends GetxController {
         'Limit Reached',
         'You can only compare up to 2 items.',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.withOpacity(0.15),
+        backgroundColor: Colors.red.withValues(alpha: 0.15),
       );
       return; // Exit the function without adding the new item
     }
@@ -37,7 +37,7 @@ class CartController extends GetxController {
         'Already in Compare',
         '${item.name} is already in your compare list.',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.withOpacity(0.15),
+        backgroundColor: Colors.red.withValues(alpha: 0.15),
       );
     }
     update(); // Update the state to refresh the UI
@@ -54,7 +54,7 @@ class CartController extends GetxController {
           snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white70);
     } else {
       Get.snackbar('Item Not Found', 'The item could not be found in your compare list.',
-          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red.withOpacity(0.15));
+          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red.withValues(alpha: 0.15));
     }
     update();
   }
@@ -178,7 +178,7 @@ class CartController extends GetxController {
       saveWishlist(); // Save wishlist after adding an item
       Get.snackbar('Added to Wishlist', '${item.name} has been added to your wishlist.',snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.white70);
     } else {
-      Get.snackbar('Already in Wishlist', '${item.name} is already in your wishlist.',snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.red.withOpacity(0.15));
+      Get.snackbar('Already in Wishlist', '${item.name} is already in your wishlist.',snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.red.withValues(alpha: 0.15));
     }
   }
 
@@ -194,7 +194,7 @@ class CartController extends GetxController {
       loadWishlist();
       update();
     } else {
-      Get.snackbar('Item Not Found', 'The item could not be found in your wishlist.',snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.red.withOpacity(0.15));
+      Get.snackbar('Item Not Found', 'The item could not be found in your wishlist.',snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.red.withValues(alpha: 0.15));
     }
   }
 

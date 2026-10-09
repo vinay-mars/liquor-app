@@ -30,7 +30,7 @@ class ProductCategoryRepo {
           'Authorization': basicAuth,
         }),
       );
-      log("Category Dataaa ${basicAuth}");
+      log("Category Dataaa $basicAuth");
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

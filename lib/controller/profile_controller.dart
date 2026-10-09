@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../data/model/base_model/api_response.dart';
 import '../data/repository/profile_repo.dart';
@@ -113,11 +114,9 @@ class ProfileController extends GetxController{
       update();
       if (apiResponse.response!.data != null) {
         response = apiResponse.response!.data!;
-        print("sent>> ${response}");
-        print("sent>> ${response}");
-        print("sent>> ${response}");
-        print("sent>> ${response}");
-        print("sent>> ${response}");
+        if (kDebugMode) {
+          print("sent>> $response");
+        }
         update();
       }
     } else {

@@ -1,6 +1,7 @@
 
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 class LoggingInterceptor extends InterceptorsWrapper{
 
@@ -8,43 +9,46 @@ class LoggingInterceptor extends InterceptorsWrapper{
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    // TODO: implement onRequest
-    print("--> ${options.method} ${options.path}");
-    print("Headers: ${options.headers.toString()}");
-    print("<-- END HTTP");
+    if (kDebugMode) {
+      print("--> ${options.method} ${options.path}");
+      print("Headers: ${options.headers.toString()}");
+      print("<-- END HTTP");
+    }
 
     return super.onRequest(options, handler);
   }
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    // TODO: implement onResponse
-    print("<-- ${response.statusCode} ${response.requestOptions.method} ${response.requestOptions.path}");
+    if (kDebugMode) {
+      print("<-- ${response.statusCode} ${response.requestOptions.method} ${response.requestOptions.path}");
 
-    String responseAsString = response.data.toString();
+      String responseAsString = response.data.toString();
 
-    if (responseAsString.length > maxCharactersPerLine) {
-      int iterations = (responseAsString.length / maxCharactersPerLine).floor();
-      for (int i = 0; i <= iterations; i++) {
-        int endingIndex = i * maxCharactersPerLine + maxCharactersPerLine;
-        if (endingIndex > responseAsString.length) {
-          endingIndex = responseAsString.length;
+      if (responseAsString.length > maxCharactersPerLine) {
+        int iterations = (responseAsString.length / maxCharactersPerLine).floor();
+        for (int i = 0; i <= iterations; i++) {
+          int endingIndex = i * maxCharactersPerLine + maxCharactersPerLine;
+          if (endingIndex > responseAsString.length) {
+            endingIndex = responseAsString.length;
+          }
+          print(responseAsString.substring(i * maxCharactersPerLine, endingIndex));
         }
-        print(responseAsString.substring(i * maxCharactersPerLine, endingIndex));
+      } else {
+        print(response.data);
       }
-    } else {
-      print(response.data);
-    }
 
-    print("<-- END HTTP");
+      print("<-- END HTTP");
+    }
 
     return super.onResponse(response, handler);
   }
 
   @override
-  void onError(DioError? err, ErrorInterceptorHandler handler) {
-    // TODO: implement onError
-    print("ERROR[${err!.response?.statusCode}] => PATH: ${err.requestOptions.path}");
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    if (kDebugMode) {
+      print("ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}");
+    }
     super.onError(err, handler);
   }
 

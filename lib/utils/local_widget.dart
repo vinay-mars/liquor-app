@@ -35,21 +35,18 @@ class ReusableLanguagePopupMenuButton extends GetView<LocaleController> {
             padding: const EdgeInsets.only(left: 0, top: 0, bottom: 0, right: 0),
             value: e.key,
             child: Container(
-                padding: EdgeInsets.only(top: 10, bottom: 10),
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
                 //color: Colors.blueGrey,
                 alignment: Alignment.center,
                 child: Text("${e.value['description']}")));
       }).toList(),
       onSelected: (newValue) {
         controller.updateLocale(newValue);
-        print("check lan code >> ${newValue}");
         if(newValue=="ar"){
-          print("RTL done");
           rtlController.isRTL.value = true;
           rtlController.changeTextDirection(true);
         }
         else{
-          print("RTL Cancel");
           rtlController.changeTextDirection(false);
         }
         box.write("ln", newValue);

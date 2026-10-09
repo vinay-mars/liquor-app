@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/screen/cart_screen.dart';
+import 'package:pringles_fine_wine/screen/cart_screen.dart';
 import '../controller/cart_controller.dart';
 import '../controller/product_search_controller.dart';
 import '../utils/app_colors.dart';
@@ -148,9 +148,6 @@ class _HomeFilterScreenState extends State<HomeFilterScreen> {
                         price: double.parse(product["price"].toString()),
                       );
 
-                      // Create a unique key for each cart icon
-                      final GlobalKey cartIconKey = GlobalKey();
-
                       // Check if the item is already in the wishlist
                       bool isInWishlist = cartController.wishlistItems
                           .any((existingItem) => existingItem.product_id == item.product_id);
@@ -291,7 +288,7 @@ class _HomeFilterScreenState extends State<HomeFilterScreen> {
                                         });
                                         cartController.addToWishlist(item);
                                       },
-                                      child: Icon(Icons.favorite_outline,color: AppColors.appBlackColor.withOpacity(0.50),size: 24,)),
+                                      child: Icon(Icons.favorite_outline,color: AppColors.appBlackColor.withValues(alpha: 0.50),size: 24,)),
                                 ],
                               ):Image.asset("assets/images/wishlist_already.png",height: 28,width: 28,)),
                         ],
@@ -309,71 +306,6 @@ class _HomeFilterScreenState extends State<HomeFilterScreen> {
           );
         }
     );
-  }
-
-  void _flyToCart(BuildContext context, CartItem item, GlobalKey cartIconKey) {
-    Navigator.of(context).push(
-      PageRouteBuilder(
-        opaque: false,
-        pageBuilder: (context, animation, secondaryAnimation) {
-          return Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Stack(
-              children: [
-                Positioned(
-                  right: 15,
-                  top: 30,
-                  child: FadeTransition(
-                    opacity: Tween<double>(begin: 1.0, end: 0.0).animate(
-                      CurvedAnimation(
-                        parent: animation,
-                        curve: Curves.easeOut,
-                      ),
-                    ),
-                    child: Hero(
-                      tag: item.product_id,
-                      child: Image.network(
-                        item.image,
-                        width: 50,
-                        height: 50,
-                        fit: BoxFit.cover,
-                      ),
-
-                      flightShuttleBuilder: (flightContext, animation, direction,
-                          fromContext, toContext) {
-                        if(direction == HeroFlightDirection.push) {
-                          return Image.network(
-                            item.image,
-                            width: 50,
-                            height: 50,
-                            fit: BoxFit.cover,
-                          );
-                        } else if (direction == HeroFlightDirection.pop){
-                          return const SizedBox();
-                        }
-                        return const SizedBox();
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          // Only apply the fade transition on push
-          return FadeTransition(
-            opacity: animation,
-            child: child,
-          );
-        },
-      ),
-    );
-
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      // This pop action will not animate the Hero
-      Navigator.of(context).pop();
-    });
   }
 
 }

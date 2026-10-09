@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/controller/product_controller.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/utils/app_colors.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/utils/featured_products.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/utils/on_sale.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/utils/top_rated.dart';
+import 'package:pringles_fine_wine/controller/product_controller.dart';
+import 'package:pringles_fine_wine/utils/app_colors.dart';
+import 'package:pringles_fine_wine/utils/featured_products.dart';
+import 'package:pringles_fine_wine/utils/on_sale.dart';
+import 'package:pringles_fine_wine/utils/top_rated.dart';
 
 class DealsOfferScreen extends StatefulWidget {
    const DealsOfferScreen({super.key});

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../controller/auth_controller.dart';
 import '../utils/app_colors.dart';
+import 'age_gate_screen.dart';
 
 
 class RegisterScreen extends StatefulWidget {
-  RegisterScreen({super.key});
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -20,6 +22,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   bool obSecureText = true;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (GetStorage().read('age_verified') != true) {
+        Get.to(() => const AgeGateScreen());
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +64,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
-                                      const Color(0xff167A52).withOpacity(0.3),
+                                      const Color(0xff167A52).withValues(alpha: 0.3),
                                       const Color(0xff167A52),
                                     ],
                                     begin: Alignment.topCenter,

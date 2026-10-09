@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/app_strings.dart';
@@ -53,7 +54,7 @@ class AuthRepo {
       final Dio dio = Dio();
 
       Response response = await dio.post(
-        "https://liquor.marsintel.com/wp-json/jwt-auth/v1/token",
+        "${AppStrings.website}${AppStrings.loginUrl}",
         data: {
           "username": username,
           "password": password,
@@ -64,10 +65,11 @@ class AuthRepo {
         ),
       );
 
-      print("✅ LOGIN RESPONSE: ${response.data}");
       return ApiResponse.withSuccess(response);
     } catch (e) {
-      print("❌ LOGIN ERROR: $e");
+      if (kDebugMode) {
+        print("❌ LOGIN ERROR: $e");
+      }
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
@@ -79,7 +81,6 @@ class AuthRepo {
       ) async {
     try {
 
-      print("user value : $user");
       Response response = await Dio().post(
         "${AppStrings.website}/wp-login.php?action=lostpassword",
         data: {
@@ -109,10 +110,8 @@ class AuthRepo {
 
     try {
       await sharedPreferences.setString(AppStrings.token, token);
-      print("========>Token Stored<=======");
-      print(await sharedPreferences.getString(AppStrings.token));
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -141,7 +140,7 @@ class AuthRepo {
     try {
       await sharedPreferences.setString(AppStrings.token, token);
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 

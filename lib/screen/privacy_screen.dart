@@ -37,7 +37,7 @@ class PrivacyScreen extends StatelessWidget {
             child: Column(
               children: [
                 Text('''
-Welcome to Zilly! Your privacy is important to us. This Privacy Policy outlines how we collect, use, disclose, and protect your personal information when you use our mobile application (the "App"). By using Zilly, you agree to the practices described in this policy.
+Welcome to Pringles Wine! Your privacy is important to us. This Privacy Policy outlines how we collect, use, disclose, and protect your personal information when you use our mobile application (the "App"). By using Pringles Wine, you agree to the practices described in this policy.
 
 1. Information We Collect
 

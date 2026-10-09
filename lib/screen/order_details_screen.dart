@@ -115,12 +115,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                 radius: 16,
                                 backgroundColor: Colors.white,
                                 child: CircleAvatar(
-                                  child: activeStep >= 0
-                                      ? Icon(Icons.check_circle, color: Colors.white)
-                                      : Icon(Icons.circle, color: Colors.white),
                                   radius: 15,
                                   backgroundColor:
                                   activeStep >= 0 ? AppColors.appPrimaryColor : Colors.grey,
+                                  child: activeStep >= 0
+                                      ? const Icon(Icons.check_circle, color: Colors.white)
+                                      : const Icon(Icons.circle, color: Colors.white),
                                 ),
                               ),
                               title: 'Pending',
@@ -130,12 +130,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                 radius: 16,
                                 backgroundColor: Colors.white,
                                 child: CircleAvatar(
-                                  child: activeStep >= 1
-                                      ? Icon(Icons.check_circle, color: Colors.white)
-                                      : Icon(Icons.circle, color: Colors.white),
                                   radius: 15,
                                   backgroundColor:
                                   activeStep >= 1 ? AppColors.appPrimaryColor : Colors.grey,
+                                  child: activeStep >= 1
+                                      ? const Icon(Icons.check_circle, color: Colors.white)
+                                      : const Icon(Icons.circle, color: Colors.white),
                                 ),
                               ),
                               title: 'Processing',
@@ -145,12 +145,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                 radius: 16,
                                 backgroundColor: Colors.white,
                                 child: CircleAvatar(
-                                  child: activeStep >= 2
-                                      ? Icon(Icons.check_circle, color: Colors.white)
-                                      : Icon(Icons.circle, color: Colors.white),
                                   radius: 15,
                                   backgroundColor:
                                   activeStep >= 2 ? AppColors.appPrimaryColor : Colors.grey,
+                                  child: activeStep >= 2
+                                      ? const Icon(Icons.check_circle, color: Colors.white)
+                                      : const Icon(Icons.circle, color: Colors.white),
                                 ),
                               ),
                               title: 'Completed',
@@ -160,12 +160,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                 radius: 16,
                                 backgroundColor: Colors.white,
                                 child: CircleAvatar(
-                                  child: activeStep >= 2
-                                      ? Icon(Icons.check_circle, color: Colors.white)
-                                      : Icon(Icons.circle, color: Colors.white),
                                   radius: 15,
                                   backgroundColor:
                                   activeStep >= 2 ? AppColors.appPrimaryColor : Colors.grey,
+                                  child: activeStep >= 2
+                                      ? const Icon(Icons.check_circle, color: Colors.white)
+                                      : const Icon(Icons.circle, color: Colors.white),
                                 ),
                               ),
                               title: 'Delivered',

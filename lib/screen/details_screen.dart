@@ -10,10 +10,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rating_summary/rating_summary.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/controller/auth_controller.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/screen/cart_screen.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/utils/app_colors.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/utils/photo_view_widget.dart';
+import 'package:pringles_fine_wine/controller/auth_controller.dart';
+import 'package:pringles_fine_wine/screen/cart_screen.dart';
+import 'package:pringles_fine_wine/utils/app_colors.dart';
+import 'package:pringles_fine_wine/utils/photo_view_widget.dart';
 import '../controller/cart_controller.dart';
 import '../controller/product_controller.dart';
 import 'package:badges/badges.dart' as badges;
@@ -61,9 +61,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
           dynamic name = variation["name"];
 
           variationMap[id] = name;
-          print(variationMap);
-          print("product variation id : $id");
-          print("product variation Data : $name");
         });
 
       });
@@ -182,7 +179,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ],
                 ),
                 body: productController.isLoadingDetails == false && productController.productDetailsData != null
-                    ? Padding(
+                    ? Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 500),
+                    child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: ListView(
                     shrinkWrap: true,
@@ -348,7 +348,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   ),
                                 );
                               } else {
-                                return SizedBox.shrink();
+                                return const SizedBox.shrink();
                               }
                             })(),
                           },
@@ -544,7 +544,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               ),
 
                               Divider(
-                                color: AppColors.appProductBorderColor.withOpacity(0.8),
+                                color: AppColors.appProductBorderColor.withValues(alpha: 0.8),
                               ),
 
                               cartController.cartItems
@@ -553,7 +553,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12),
-                                    color: AppColors.appPrimaryColor.withOpacity(0.2)
+                                    color: AppColors.appPrimaryColor.withValues(alpha: 0.2)
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
@@ -583,7 +583,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                               Divider(
-                                color: AppColors.appProductBorderColor.withOpacity(0.8),
+                                color: AppColors.appProductBorderColor.withValues(alpha: 0.8),
                               ),
                               const SizedBox(height: 8),
                               Padding(
@@ -629,7 +629,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                   }
                                                 }
 
-                                                print("Updated meta_data: $meta_data");
+                                                if (kDebugMode) {
+                                                  print("Updated meta_data: $meta_data");
+                                                }
                                               });
                                             }
                                           });
@@ -706,11 +708,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                         variationMap.forEach((key, value) {
                                                           // Check if combinedSelectedValues matches the value
                                                           if (value.split(", ").every((val) => combinedSelectedValues.contains(val))) {
-                                                            print("Matched key: $key for values: $value");
                                                             matchFound = true; // Set matchFound to true if a match is found
                                                             if (key != null) {
                                                               variationId = key;
-                                                              print("Current variation id is : $variationId");
                                                               productPrice = null;
                                                               productController.getProductVariationData(
                                                                 id: widget.id,
@@ -728,8 +728,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                                   }
                                                                 }
 
-                                                                // You can also print the updated meta_data for debugging
-                                                                print("Updated meta_data: $meta_data");
+                                                                if (kDebugMode) {
+                                                                  print("Updated meta_data: $meta_data");
+                                                                }
 
                                                               });
 
@@ -791,13 +792,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 ),
                               ),
                                 TextButton(onPressed: (){
-                                  print("selectedOptions ${selectedOptions}");
                                   setState(() {
                                     selectedOptions = [];
                                     hasShownToast = false;
                                   });
-                                  print("selectedOptions-2 ${selectedOptions}");
-
                                 }, child: const Text("Clear")),
                               ],
                             )
@@ -810,7 +808,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       Divider(
-                        color: AppColors.appProductBorderColor.withOpacity(0.8),
+                        color: AppColors.appProductBorderColor.withValues(alpha: 0.8),
                       ),
 
                       const SizedBox(height: 8),
@@ -836,7 +834,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       Divider(
-                        color: AppColors.appProductBorderColor.withOpacity(0.8),
+                        color: AppColors.appProductBorderColor.withValues(alpha: 0.8),
                       ),
                       const SizedBox(height: 8),
                       productController.isLoadingReview==false && productController.reviewData!=null?
@@ -952,7 +950,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                         setState(() {
                                                           // Convert rating to the next integer greater than or equal to the rating (ceil the value)
                                                           _rating = double.parse(value.ceil().toString());  // This ensures that if there's a decimal, it rounds up.
-                                                          print("rating $_rating");
                                                         });
                                                       },
                                                     )
@@ -968,12 +965,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                     SharedPreferences preferences = await SharedPreferences.getInstance();
 
                                                     setState((){});
-
-                                                    print("product ID : ${widget.id}");
-                                                    print("product ID : ${preferences.getString("user_display_name")}");
-                                                    print("product ID : ${preferences.getString("email_id")}");
-                                                    print("product ID : ${_reviewController.text.toString()}");
-                                                    print("product ID : ${_rating.toInt()}");
 
                                                     productController.createReview(
                                                         productId: widget.id,
@@ -1166,7 +1157,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                         decoration: BoxDecoration(
                                             boxShadow: [
                                               BoxShadow(
-                                                color: Colors.grey.withOpacity(0.05),
+                                                color: Colors.grey.withValues(alpha: 0.05),
                                                 spreadRadius: 0,
                                                 blurRadius: 5,
                                                 offset: const Offset(1,1), // changes position of shadow
@@ -1303,6 +1294,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
 
                     ],
+                  ),
+                    ),
                   ),
                 )
                     : const Center(

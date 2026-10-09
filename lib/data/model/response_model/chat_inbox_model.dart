@@ -38,25 +38,25 @@ class ChatInboxModel {
     if (json['messages'] != null) {
       messages = <Messages>[];
       json['messages'].forEach((v) {
-        messages!.add(new Messages.fromJson(v));
+        messages!.add(Messages.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['con_id'] = this.conId;
-    data['listing_id'] = this.listingId;
-    data['sender_id'] = this.senderId;
-    data['recipient_id'] = this.recipientId;
-    data['sender_delete'] = this.senderDelete;
-    data['recipient_delete'] = this.recipientDelete;
-    data['last_message_id'] = this.lastMessageId;
-    data['sender_review'] = this.senderReview;
-    data['recipient_review'] = this.recipientReview;
-    data['invert_review'] = this.invertReview;
-    if (this.messages != null) {
-      data['messages'] = this.messages!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['con_id'] = conId;
+    data['listing_id'] = listingId;
+    data['sender_id'] = senderId;
+    data['recipient_id'] = recipientId;
+    data['sender_delete'] = senderDelete;
+    data['recipient_delete'] = recipientDelete;
+    data['last_message_id'] = lastMessageId;
+    data['sender_review'] = senderReview;
+    data['recipient_review'] = recipientReview;
+    data['invert_review'] = invertReview;
+    if (messages != null) {
+      data['messages'] = messages!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -88,13 +88,13 @@ class Messages {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message_id'] = this.messageId;
-    data['con_id'] = this.conId;
-    data['source_id'] = this.sourceId;
-    data['message'] = this.message;
-    data['is_read'] = this.isRead;
-    data['created_at'] = this.createdAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message_id'] = messageId;
+    data['con_id'] = conId;
+    data['source_id'] = sourceId;
+    data['message'] = message;
+    data['is_read'] = isRead;
+    data['created_at'] = createdAt;
     return data;
   }
 }

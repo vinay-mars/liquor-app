@@ -3,7 +3,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -41,14 +40,9 @@ class DioClient{
   }
 
   void updateHeader(String token, String countryCode) {
-    token = (token == null ? this.token : token)!;
     // countryCode = countryCode == null ? this.countryCode == 'US' ? 'en': this.countryCode.toLowerCase(): countryCode == 'US' ? 'en' : countryCode.toLowerCase();
     this.token = token;
     this.countryCode = countryCode;
-    print('===Country code====>$countryCode');
-    if(kDebugMode){
-      print('===Token====>$token');
-    }
     dio?.options.headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
@@ -64,22 +58,37 @@ class DioClient{
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
   }) async {
-    try {
-      var response = await dio!.get(
-        uri,
-        queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken,
-        onReceiveProgress: onReceiveProgress,
-      );
-      return response;
-    } on SocketException catch (e) {
-      throw SocketException(e.toString());
-    } on FormatException catch (_) {
-      throw FormatException("Unable to process the data");
-    } catch (e) {
-      throw e;
+    const int maxAttempts = 3;
+    for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+      try {
+        var response = await dio!.get(
+          uri,
+          queryParameters: queryParameters,
+          options: options,
+          cancelToken: cancelToken,
+          onReceiveProgress: onReceiveProgress,
+        );
+        return response;
+      } on DioException catch (e) {
+        final isConnectionIssue = e.type == DioExceptionType.connectionError ||
+            e.type == DioExceptionType.connectionTimeout ||
+            e.error is SocketException;
+        if (isConnectionIssue && attempt < maxAttempts) {
+          await Future.delayed(Duration(milliseconds: 500 * attempt));
+          continue;
+        }
+        rethrow;
+      } on SocketException catch (e) {
+        if (attempt < maxAttempts) {
+          await Future.delayed(Duration(milliseconds: 500 * attempt));
+          continue;
+        }
+        throw SocketException(e.toString());
+      } on FormatException catch (_) {
+        throw const FormatException("Unable to process the data");
+      }
     }
+    throw StateError('unreachable');
   }
 
 
@@ -103,9 +112,9 @@ class DioClient{
       );
       return response;
     } on FormatException catch (_) {
-      throw FormatException("Unable to process the data");
+      throw const FormatException("Unable to process the data");
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -130,9 +139,9 @@ class DioClient{
       );
       return response;
     } on FormatException catch (_) {
-      throw FormatException("Unable to process the data");
+      throw const FormatException("Unable to process the data");
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 

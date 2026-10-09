@@ -1,4 +1,4 @@
-# zilly_flutter_woocommerce_mobile_app
+# pringles_fine_wine
 
 A new Flutter project.
 

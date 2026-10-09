@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/app_strings.dart';
 import '../datasource/remote/dio/dio_client.dart';
@@ -46,7 +47,9 @@ class OrderRepo {
       );
       return ApiResponse.withSuccess(response);
     } catch (e) {
-      print("Create Order ${e}");
+      if (kDebugMode) {
+        print("Create Order $e");
+      }
 
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }

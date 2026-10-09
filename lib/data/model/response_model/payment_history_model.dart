@@ -21,22 +21,22 @@ class PaymentHistoryModel {
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    if (this.pagination != null) {
-      data['pagination'] = this.pagination!.toJson();
+    if (pagination != null) {
+      data['pagination'] = pagination!.toJson();
     }
     return data;
   }
 }
 
 class Datum {
-  dynamic? id;
-  dynamic? price;
-  dynamic? method;
-  dynamic? status;
-  dynamic? transactionId;
-  dynamic? orderKey;
-  dynamic? paidDate;
-  dynamic? createdDate;
+  dynamic id;
+  dynamic price;
+  dynamic method;
+  dynamic status;
+  dynamic transactionId;
+  dynamic orderKey;
+  dynamic paidDate;
+  dynamic createdDate;
   Gateway? gateway;
 
   Datum({
@@ -97,13 +97,13 @@ class Datum {
 }
 
 class Gateway {
-  dynamic? id;
-  dynamic? title;
-  dynamic? icon;
-  dynamic? description;
-  dynamic? key;
+  dynamic id;
+  dynamic title;
+  dynamic icon;
+  dynamic description;
+  dynamic key;
   Routes? routes;
-  dynamic? instructions;
+  dynamic instructions;
 
   Gateway({
     this.id,
@@ -141,7 +141,7 @@ class Gateway {
 }
 
 class Routes {
-  dynamic? confirmPaymentIntent;
+  dynamic confirmPaymentIntent;
 
   Routes({this.confirmPaymentIntent});
 
@@ -157,11 +157,11 @@ class Routes {
 }
 
 class Pagination {
-  dynamic? total;
-  dynamic? count;
-  dynamic? perPage;
-  dynamic? currentPage;
-  dynamic? totalPages;
+  dynamic total;
+  dynamic count;
+  dynamic perPage;
+  dynamic currentPage;
+  dynamic totalPages;
 
   Pagination({
     this.total,

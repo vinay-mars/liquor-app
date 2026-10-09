@@ -1,4 +1,4 @@
-name: zilly_flutter_woocommerce_mobile_app
+name: pringles_fine_wine
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -16,12 +16,12 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-# current build version:p
-# flutter build appbundle --build-name=2.0.0 --build-number=10
+# current build version:
+# flutter build appbundle --build-name=1.0.0 --build-number=1
 # generate key store file command:
 # keytool -genkey -v -keystore release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key0
 
-version: 2.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: '>=3.5.0 <4.0.0'
@@ -52,18 +52,12 @@ dependencies:
   flutter_svg: ^2.0.10+1
   jwt_decoder: ^2.0.1
   easy_stepper: ^0.8.5+1
-  icons_launcher: ^2.1.7
   flutter_timer_countdown: ^1.0.7
   rating_summary: ^1.0.3+1
   toastification: ^2.2.0
   intl: ^0.19.0
-  flutter_stripe: ^11.2.0
-  flutter_dotenv: ^5.0.2
   http: ^1.2.0
   add_to_cart_animation: ^2.0.3
-  razorpay_flutter: ^1.4.0
-  flutter_paypal: ^0.2.1
-  flutter_paystack_max: ^1.0.4
   flutter_widget_from_html: ^0.15.2
   flutter_pannable_rating_bar: ^2.7.2+1
   lottie: ^3.1.2
@@ -73,7 +67,6 @@ dependencies:
   change_app_package_name: ^1.4.0
   floating_draggable_widget: ^2.3.0
   share_plus: ^12.0.1
-  flutter_inappwebview: ^6.1.5
   win32: ^5.8.0
   video_player_android: ^2.7.16
   carousel_slider: ^5.0.0
@@ -82,21 +75,13 @@ dependencies:
   url_launcher: ^6.1.14
   flutter_launcher_icons: ^0.14.4
 
-icons_launcher:
-  image_path: "assets/images/app_logo.png"
-  platforms:
-    android:
-      enable: true
-    ios:
-      enable: true
-
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/liquorlyAppIcon.png"  # path to your icon
+  image_path: "assets/images/pringlesAppIcon.png"  # path to your icon
   min_sdk_android: 21
   adaptive_icon_background: "#ffffff"  # background color for Android adaptive icon
-  adaptive_icon_foreground: "assets/images/liquorlyAppIcon.png"
+  adaptive_icon_foreground: "assets/images/pringlesAppIcon.png"
 
 
 dev_dependencies:
@@ -124,7 +109,6 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-    - assets/.env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

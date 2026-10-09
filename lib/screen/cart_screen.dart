@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/screen/details_screen.dart';
+import 'package:pringles_fine_wine/screen/details_screen.dart';
 import '../controller/auth_controller.dart';
 import '../controller/cart_controller.dart';
 import '../utils/app_colors.dart';
 import 'checkout_screen.dart';
-import 'login_screen.dart';
 
 class CartScreen extends StatelessWidget {
   bool? fromDetails;

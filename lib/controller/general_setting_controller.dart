@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:html/parser.dart';
@@ -14,30 +15,28 @@ class GeneralSettingController extends GetxController{
 
   @override
   void onInit() {
-    // TODO: implement onInit
     getGeneralSettingData();
     super.onInit();
   }
 
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
+  final RxBool _isLoading = false.obs;
+  bool get isLoading => _isLoading.value;
 
   final box = GetStorage(); // GetStorage instance
 
-  dynamic generalSettingData;
+  final Rx<dynamic> _generalSettingData = Rx<dynamic>(null);
+  dynamic get generalSettingData => _generalSettingData.value;
 
 
   Future<dynamic> getGeneralSettingData() async {
-
-    _isLoading = true;
-    update();
+    _isLoading.value = true;
     ApiResponse apiResponse = await generalSettingRepo.getGeneralSettingData();
 
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-      _isLoading = false;
-      update();
+      _isLoading.value = false;
       if (apiResponse.response!.data != null) {
-        generalSettingData = apiResponse.response!.data!;
+        _generalSettingData.value = apiResponse.response!.data!;
+        final generalSettingData = _generalSettingData.value;
 
         // Find the currency settings
         final currencySetting = generalSettingData.firstWhere((setting) => setting['id'] == 'woocommerce_currency', orElse: () => null);
@@ -52,8 +51,10 @@ class GeneralSettingController extends GetxController{
           String? currencyValue;
 
           if (currencyDescription != null) {
-            print('Current Currency Code: $currentValue');
-            print('Currency Description: $currencyDescription');
+            if (kDebugMode) {
+              print('Current Currency Code: $currentValue');
+              print('Currency Description: $currencyDescription');
+            }
 
              currencyValue = extractCurrencyValue(currencyDescription);
 
@@ -61,17 +62,23 @@ class GeneralSettingController extends GetxController{
             if (containsOnlyEnglishCharacters(currencyValue)) {
               // Try to find another value in parentheses
               currencyValue = extractAlternativeCurrencyValue(currencyDescription);
-              print("only english>> $currencyValue");
+              if (kDebugMode) {
+                print("only english>> $currencyValue");
+              }
             }
             else{
               // Extract the currency value
               currencyValue = extractCurrencyValue(currencyDescription);
-              print("value>> $currencyValue");
+              if (kDebugMode) {
+                print("value>> $currencyValue");
+              }
             }
             final String realCurrency = decodeHtml(currencyValue!);
 
-            print('Current Currency Code: $currencyValue');
-            print('Real Currency Value: $realCurrency');
+            if (kDebugMode) {
+              print('Current Currency Code: $currencyValue');
+              print('Real Currency Value: $realCurrency');
+            }
 
             // Store data in GetStorage
             box.write('currency', realCurrency);
@@ -82,17 +89,19 @@ class GeneralSettingController extends GetxController{
             }
 
           } else {
-            print('Currency code not found in options.');
+            if (kDebugMode) {
+              print('Currency code not found in options.');
+            }
           }
         } else {
-          print('Currency setting not found.');
+          if (kDebugMode) {
+            print('Currency setting not found.');
+          }
         }
 
-        update();
       }
     } else {
-      _isLoading = false;
-      update();
+      _isLoading.value = false;
     }
   }
 

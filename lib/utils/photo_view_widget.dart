@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/utils/app_colors.dart';
+import 'package:pringles_fine_wine/utils/app_colors.dart';
 
 class PhotoViewWidget extends StatelessWidget {
   dynamic imageUrl;

@@ -68,7 +68,9 @@ class AuthController extends GetxController{
         );
         Map map = apiResponse.response!.data;
         dynamic customerId = map["id"];
-        print("customer id : $customerId");
+        if (kDebugMode) {
+          print("customer id : $customerId");
+        }
         if (customerId != null) {
           SharedPreferences preferences = await SharedPreferences.getInstance();
           preferences.setInt("customerId", customerId);
@@ -81,8 +83,10 @@ class AuthController extends GetxController{
           }
         }
       } else if (apiResponse.response != null && apiResponse.response!.statusCode == 400) {
-        print("Status code is 400");
-        print("Response data: ${apiResponse.response!.data}");
+        if (kDebugMode) {
+          print("Status code is 400");
+          print("Response data: ${apiResponse.response!.data}");
+        }
 
         Fluttertoast.showToast(
           msg: apiResponse.response!.data["message"] ?? "Bad request",
@@ -135,7 +139,9 @@ class AuthController extends GetxController{
 
         if (token != null && token.isNotEmpty) {
           if (JwtDecoder.isExpired(token)) {
-            print('Token is expired');
+            if (kDebugMode) {
+              print('Token is expired');
+            }
             return null;
           }
           // Decode the token
@@ -178,8 +184,9 @@ class AuthController extends GetxController{
       }
       else {
         if (apiResponse.response != null && apiResponse.response!.statusCode != 200) {
-          print("Reponseeeeeeeeeeeeeeeeeeeeeeee ${response}");
-
+          if (kDebugMode) {
+            print("Reponseeeeeeeeeeeeeeeeeeeeeeee $response");
+          }
         }
           if (kDebugMode) {
           print("Status code is not 200");
@@ -225,9 +232,10 @@ class AuthController extends GetxController{
 
       if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
         isLoadingForget =false;
-        print("api calling...");
         response = apiResponse.response!.data;
-        print("$response");
+        if (kDebugMode) {
+          print("$response");
+        }
         update();
         return apiResponse.response!.statusCode;
       }

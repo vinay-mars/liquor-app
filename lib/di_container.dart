@@ -4,12 +4,12 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/controller/general_setting_controller.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/controller/product_search_controller.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/controller/rtl_controller.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/data/repository/general_setting_repo.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/data/repository/product_search_repo.dart';
-import 'package:zilly_flutter_woocommerce_mobile_app/utils/app_strings.dart';
+import 'package:pringles_fine_wine/controller/general_setting_controller.dart';
+import 'package:pringles_fine_wine/controller/product_search_controller.dart';
+import 'package:pringles_fine_wine/controller/rtl_controller.dart';
+import 'package:pringles_fine_wine/data/repository/general_setting_repo.dart';
+import 'package:pringles_fine_wine/data/repository/product_search_repo.dart';
+import 'package:pringles_fine_wine/utils/app_strings.dart';
 import 'controller/auth_controller.dart';
 import 'controller/cart_controller.dart';
 import 'controller/local_controller.dart';
@@ -29,6 +29,12 @@ import 'data/repository/profile_repo.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  /// External pocket lock
+  final sharedPreferences = await SharedPreferences.getInstance();
+  sl.registerLazySingleton(() => sharedPreferences);
+  sl.registerLazySingleton(() => Dio());
+  sl.registerLazySingleton(() => LoggingInterceptor());
+
   /// Core
    sl.registerLazySingleton(() => DioClient(AppStrings.baseUrl, sl(), loggingInterceptor: sl(), sharedPreferences: sl()));
 
@@ -49,17 +55,9 @@ Future<void> init() async {
   Get.lazyPut(() =>  ProductController(productRepo: sl()), fenix: true);
   Get.lazyPut(() =>  ProductSearchController(productSearchRepo: sl()), fenix: true);
   Get.lazyPut(() =>  ProductCategoryController(productCategoryRepo: sl()), fenix: true);
-  Get.lazyPut(() =>  GeneralSettingController(generalSettingRepo: sl()), fenix: true);
+  Get.put(GeneralSettingController(generalSettingRepo: sl()), permanent: true);
   Get.lazyPut(() =>  OrderController(orderRepo: sl()), fenix: true);
   Get.lazyPut(() =>  CartController(),fenix: true);
   Get.lazyPut(() => LocaleController(), fenix: true);
   Get.lazyPut(() => TextDirectionController(), fenix: true);
-
-
-
-  /// External pocket lock
-  final sharedPreferences = await SharedPreferences.getInstance();
-  sl.registerLazySingleton(() => sharedPreferences);
-  sl.registerLazySingleton(() => Dio());
-  sl.registerLazySingleton(() => LoggingInterceptor());
 }

@@ -37,7 +37,6 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
       customerId = preferences.getInt("customerId");
       guestEmail = preferences.getString("guestEmail");
     });
-    print("check Id >>> $customerId");
     // You might want to trigger a refresh if customerId is changed
     setState(() {});
   }

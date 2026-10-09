@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../data/model/base_model/api_response.dart';
 import '../data/repository/product_repo.dart';
@@ -61,14 +62,9 @@ class ProductController extends GetxController {
         update();
 
         if (apiResponse.response!.data != null) {
-          print("--------------------------------------------get Prod Data");
           if (page == 1) {
-            print("--------------------------------------------get Prod Data1");
-
             productData = apiResponse.response!.data!; // Replace data on refresh
           } else {
-            print("--------------------------------------------get Prod Data2");
-
             productData.addAll(apiResponse.response!.data!); // Append new data
           }
           currentPage = page;
@@ -258,7 +254,9 @@ class ProductController extends GetxController {
           }
         }
 
-        print(ratingCounts);
+        if (kDebugMode) {
+          print(ratingCounts);
+        }
         update();
       }
     } else {

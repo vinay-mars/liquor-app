@@ -45,3 +45,11 @@ app.*.map.json
 **/.cxx/
 .env
 assets/.env
+
+# Release signing (keystore + real credentials must never be committed)
+*.jks
+*.keystore
+key.properties
+
+# FVM Version Cache
+.fvm/
