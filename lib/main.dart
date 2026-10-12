@@ -1,5 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:pringles_fine_wine/screen/age_gate_screen.dart';
 import 'package:pringles_fine_wine/screen/bottom_navbar.dart';
 import 'package:pringles_fine_wine/utils/app_colors.dart';
 import 'controller/rtl_controller.dart';
@@ -12,17 +15,20 @@ dynamic storage;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  ErrorWidget.builder = (FlutterErrorDetails details) {
-    return Container(
-      color: const Color(0xFFFFFF00),
-      alignment: Alignment.center,
-      padding: const EdgeInsets.all(16),
-      child: Text(
-        details.exceptionAsString(),
-        style: const TextStyle(color: Color(0xFF000000), fontSize: 12),
-      ),
-    );
-  };
+  // Raw exception overlay is for debugging only; release builds keep Flutter's default error widget.
+  if (kDebugMode) {
+    ErrorWidget.builder = (FlutterErrorDetails details) {
+      return Container(
+        color: const Color(0xFFFFFF00),
+        alignment: Alignment.center,
+        padding: const EdgeInsets.all(16),
+        child: Text(
+          details.exceptionAsString(),
+          style: const TextStyle(color: Color(0xFF000000), fontSize: 12),
+        ),
+      );
+    };
+  }
 
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.presentError(details);
@@ -42,16 +48,30 @@ void main() async {
     runApp(const MyApp());
   } catch (e, stack) {
     runApp(MaterialApp(
-      home: Scaffold(
-        backgroundColor: const Color(0xFFFFFF00),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Text(
-            'STARTUP ERROR:\n$e\n\n$stack',
-            style: const TextStyle(color: Color(0xFF000000), fontSize: 11),
-          ),
-        ),
-      ),
+      debugShowCheckedModeBanner: false,
+      home: kDebugMode
+          ? Scaffold(
+              backgroundColor: const Color(0xFFFFFF00),
+              body: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  'STARTUP ERROR:\n$e\n\n$stack',
+                  style: const TextStyle(color: Color(0xFF000000), fontSize: 11),
+                ),
+              ),
+            )
+          : const Scaffold(
+              body: Center(
+                child: Padding(
+                  padding: EdgeInsets.all(32),
+                  child: Text(
+                    'Something went wrong while starting the app.\nPlease close and reopen it.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
     ));
   }
 }
@@ -81,7 +101,9 @@ class MyApp extends StatelessWidget {
               ColorScheme.fromSeed(seedColor: AppColors.appPrimaryColor),
           useMaterial3: true,
         ),
-        home: BottomNavbar(selectedIndex: 0),
+        home: GetStorage().read('age_verified') == true
+            ? BottomNavbar(selectedIndex: 0)
+            : const AgeGateScreen(),
         textDirection: textDirectionController.isRTL.value
             ? TextDirection.rtl
             : TextDirection.ltr,

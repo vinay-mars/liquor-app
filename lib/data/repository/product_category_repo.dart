@@ -48,7 +48,7 @@ class ProductCategoryRepo {
       final String basicAuth = 'Basic ${base64Encode(utf8.encode('$username:$password'))}';
 
       Response response = await dioClient.get(
-        "${AppStrings.categoryWiseProductUrl}$id&page=$page",
+        "${AppStrings.categoryWiseProductUrl}$id&per_page=20&page=$page",
         options: Options(headers: {
           "Content-Type": "application/json",
           'Authorization': basicAuth,

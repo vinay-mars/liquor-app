@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart' as html_parser;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -183,17 +184,12 @@ class AuthController extends GetxController{
         }
       }
       else {
-        if (apiResponse.response != null && apiResponse.response!.statusCode != 200) {
-          if (kDebugMode) {
-            print("Reponseeeeeeeeeeeeeeeeeeeeeeee $response");
-          }
-        }
-          if (kDebugMode) {
-          print("Status code is not 200");
+        if (kDebugMode) {
+          print("Login failed: ${apiResponse.response?.statusCode} ${apiResponse.response?.data ?? apiResponse.error}");
         }
 
         Fluttertoast.showToast(
-            msg: "Login Failed! Something wrong",
+            msg: _loginErrorMessage(apiResponse),
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
@@ -218,6 +214,20 @@ class AuthController extends GetxController{
 
 
   dynamic response;
+
+  /// The JWT plugin returns a readable reason (wrong password, unknown user, ...)
+  /// as HTML in `message`; show it as plain text instead of a generic error.
+  String _loginErrorMessage(ApiResponse apiResponse) {
+    final data = apiResponse.response?.data;
+    if (data is Map && data["message"] is String) {
+      final message = html_parser.parseFragment(data["message"]).text?.trim() ?? "";
+      if (message.isNotEmpty) return message;
+    }
+    if (apiResponse.error is String && (apiResponse.error as String).isNotEmpty) {
+      return apiResponse.error;
+    }
+    return "Login failed. Please try again.";
+  }
 
   Future<dynamic> forgetPassword(
       BuildContext context,

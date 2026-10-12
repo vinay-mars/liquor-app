@@ -24,7 +24,7 @@ class ProductRepo {
           'Basic ${base64Encode(utf8.encode('$username:$password'))}';
 
       Response response = await dioClient.get(
-        "${AppStrings.productUrl}page=$page",
+        "${AppStrings.productUrl}per_page=20&page=$page",
         options: Options(headers: {
           "Content-Type": "application/json",
           'Authorization': basicAuth,
@@ -37,6 +37,29 @@ class ProductRepo {
     }
   }
 
+
+  /// Get published products matching a WooCommerce query, e.g. "featured=true",
+  /// "on_sale=true" or "orderby=popularity&order=desc", 20 per page.
+  Future<ApiResponse> getProductsByQuery(String query, {int page = 1}) async {
+    try {
+      const String username = AppStrings.key;
+      const String password = AppStrings.secret;
+
+      final String basicAuth =
+          'Basic ${base64Encode(utf8.encode('$username:$password'))}';
+
+      Response response = await dioClient.get(
+        "${AppStrings.productUrl}$query&status=publish&per_page=20&page=$page",
+        options: Options(headers: {
+          "Content-Type": "application/json",
+          'Authorization': basicAuth,
+        }),
+      );
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }
 
   /// Get all related product Data
   Future<ApiResponse> getAllRelatedProducts({dynamic ids}) async {

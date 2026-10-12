@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'html_entity_interceptor.dart';
 import 'logging_interceptor.dart';
 
 
@@ -36,6 +37,7 @@ class DioClient{
         //AppConstants.LANG_KEY : countryCode == 'US'? 'en':countryCode.toLowerCase(),
       };
 
+    dio!.interceptors.add(HtmlEntityInterceptor());
     dio!.interceptors.add(loggingInterceptor);
   }
 

@@ -39,10 +39,10 @@ class ProductSearchRepo {
       dynamic url;
 
       if(category!=null && search==null){
-        url = "${AppStrings.productUrl}category=$safeCategory&min_price=$safeMinPrice&max_price=$safeMaxPrice&page=$safePage";
+        url = "${AppStrings.productUrl}per_page=20&category=$safeCategory&min_price=$safeMinPrice&max_price=$safeMaxPrice&page=$safePage";
       }
       else{
-        url = "${AppStrings.productUrl}search=$safeSearch&category=$safeCategory&min_price=$safeMinPrice&max_price=$safeMaxPrice&page=$safePage";
+        url = "${AppStrings.productUrl}per_page=20&search=$safeSearch&category=$safeCategory&min_price=$safeMinPrice&max_price=$safeMaxPrice&page=$safePage";
       }
 
 

@@ -45,8 +45,8 @@ class _AllCategoryScreenState extends State<AllCategoryScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3, // Number of items per row
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 140, // 3 per row on phones, more on tablets
                 crossAxisSpacing: 8.0, // Horizontal spacing between items
                 mainAxisSpacing: 8.0, // Vertical spacing between items
                 childAspectRatio: 1, // Aspect ratio of each item

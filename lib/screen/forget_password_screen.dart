@@ -28,7 +28,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                       children: [
                         Container(
                           height: 220,
-                          color: AppColors.appPrimaryColor,
+                          color: AppColors.appWhiteColor,
                         ),
                         Opacity(
                             opacity: 0.2,
@@ -40,17 +40,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 24),
                             child: Container(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      AppColors.appPrimaryColor.withValues(alpha: 0.2),
-                                      AppColors.appPrimaryColor,
-                                    ],
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                  ),
-                                ),
-                                child: Image.asset("assets/images/app_logo.png",height: 120,width: 170,)),
+                                child: Image.asset('assets/images/pringlesWineLogo.jpeg',height: 60,width: 180,)),
                           ),
                         ),
 

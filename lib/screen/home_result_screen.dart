@@ -1,3 +1,4 @@
+import 'package:pringles_fine_wine/utils/product_card_image.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -38,22 +39,36 @@ class _HomeFilterScreenState extends State<HomeFilterScreen> {
       minPrice: widget.minPrice,
       maxPrice: widget.maxPrice,
       page: productSearchController.currentPage.value,
-    );
+    ).then((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _loadMoreIfNearBottom();
+      });
+    });
 
     // Scroll listener for pagination
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-        // Reached bottom of the list, load more data
-        if (productSearchController.isMoreDataAvailable.value && !productSearchController.isLoading.value) {
-          productSearchController.getProductSearchData(
-            search: widget.search,
-            category: widget.category,
-            minPrice: widget.minPrice,
-            maxPrice: widget.maxPrice,
-            page: productSearchController.currentPage.value + 1,
-          );
-        }
-      }
+    _scrollController.addListener(_loadMoreIfNearBottom);
+  }
+
+  /// Loads the next page when scrolled near the bottom, or when the results
+  /// don't fill the screen yet (e.g. on iPad, where no scroll event would fire).
+  Future<void> _loadMoreIfNearBottom() async {
+    final productSearchController = Get.find<ProductSearchController>();
+    if (!_scrollController.hasClients ||
+        !productSearchController.isMoreDataAvailable.value ||
+        productSearchController.isLoading.value) {
+      return;
+    }
+    final position = _scrollController.position;
+    if (position.pixels < position.maxScrollExtent - 300) return;
+    await productSearchController.getProductSearchData(
+      search: widget.search,
+      category: widget.category,
+      minPrice: widget.minPrice,
+      maxPrice: widget.maxPrice,
+      page: productSearchController.currentPage.value + 1,
+    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _loadMoreIfNearBottom();
     });
   }
 
@@ -93,9 +108,7 @@ class _HomeFilterScreenState extends State<HomeFilterScreen> {
                         child: badges.Badge(
                           badgeContent: Text(cartController.cartItems.length.toString(),
                             style: GoogleFonts.roboto(color: Colors.white,fontSize: 15),),
-                          child: Image.asset("assets/images/cart_icon.png",height: 20,width: 20,
-                            color: AppColors.appWhiteColor
-                          ),
+                          child: const Icon(Icons.shopping_cart_outlined, size: 22, color: AppColors.appWhiteColor),
                         ),
                       )),
                     )
@@ -178,38 +191,8 @@ class _HomeFilterScreenState extends State<HomeFilterScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
 
-                                  product["images"].isNotEmpty?
-                                  Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 16),
-                                      child: Hero(
-                                        tag: item.product_id,
-                                        child: ClipOval(
-                                          child: Image.network(
-                                            item.image,
-                                            width: 110,
-                                            height: 110,
-                                            // fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ):
-                                  Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 16),
-                                      child: ClipOval(
-                                        child: Image.asset("assets/images/default_image.jpg",
-                                          width: 110,
-                                          height: 110,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-
-                                  Expanded(
-                                    child: Padding(
+                                  Expanded(child: ProductCardImage(imageUrl: product["images"].isNotEmpty ? product["images"][0]["src"] : null, heroTag: item.product_id, fit: BoxFit.contain)),
+Padding(
                                       padding:
                                       const EdgeInsets.only(top: 12,left: 12,right: 12),
                                       child: Column(
@@ -268,7 +251,6 @@ class _HomeFilterScreenState extends State<HomeFilterScreen> {
                                         ],
                                       ),
                                     ),
-                                  ),
 
                                 ],
                               ),
@@ -293,8 +275,9 @@ class _HomeFilterScreenState extends State<HomeFilterScreen> {
                               ):Image.asset("assets/images/wishlist_already.png",height: 28,width: 28,)),
                         ],
                       );
-                    }, gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
+                    }, gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    // Caps card width: 2 columns on phones, 3-4 on iPads.
+                    maxCrossAxisExtent: 260,
                     crossAxisSpacing: 10.0,
                     mainAxisSpacing: 10.0,
                     childAspectRatio: 0.66,

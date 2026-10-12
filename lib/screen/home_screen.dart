@@ -1,3 +1,4 @@
+import 'package:pringles_fine_wine/utils/product_card_image.dart';
 import 'dart:developer';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pringles_fine_wine/utils/pringles_banner.dart';
 import 'package:pringles_fine_wine/controller/profile_controller.dart';
 import 'package:pringles_fine_wine/screen/compared_screen.dart';
 import 'package:pringles_fine_wine/screen/deals_offer_screen.dart';
@@ -34,11 +36,27 @@ class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
 
   void _scrollListener() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
-      // Load more data when reached the bottom
-      Get.find<ProductController>()
-          .getProductData(page: Get.find<ProductController>().currentPage + 1);
+    _loadMoreIfNearBottom();
+  }
+
+  /// Loads the next page when the list is scrolled near the bottom, or when it
+  /// doesn't fill the screen yet (e.g. on iPad, where one page fits without
+  /// scrolling, so no scroll event would ever fire).
+  Future<void> _loadMoreIfNearBottom() async {
+    final productController = Get.find<ProductController>();
+    if (!_scrollController.hasClients ||
+        productController.isLoading ||
+        !productController.isMoreDataAvailable) {
+      return;
+    }
+    final position = _scrollController.position;
+    if (position.pixels >= position.maxScrollExtent - 300) {
+      await productController.getProductData(
+          page: productController.currentPage + 1);
+      // Re-check after the new page lays out in case the screen still isn't filled.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _loadMoreIfNearBottom();
+      });
     }
   }
 
@@ -59,6 +77,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _loadProduct() async {
     await Get.find<ProductController>().getProductData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _loadMoreIfNearBottom();
+    });
   }
 
   final TextEditingController _minPriceController = TextEditingController();
@@ -97,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 24, vertical: 32),
                           child: Image.asset(
-                            'assets/images/pringleslogo.jpeg',
+                            'assets/images/pringlesWineLogo.jpeg',
                             height: 70,
                           ),
                         ),
@@ -1355,33 +1376,25 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            GestureDetector(
-                                onTap: () {
-                                  Get.to(() => const HomeFilterScreen());
-                                },
-                                child: CarouselSlider(
-                                  options: CarouselOptions(
-                                    height: 200,
-                                    autoPlay: true,
-                                    enlargeCenterPage: true,
-                                    viewportFraction: 1.0,
-                                  ),
-                                  items: [
-                                    Image.asset(
-                                      "assets/images/home_banner_new.jpg",
-                                      height: 200,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    Image.asset(
-                                      "assets/images/home_banner_2.jpg",
-                                      height: 200,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    // Add more images here if you like
-                                  ],
-                                )),
+                            CarouselSlider(
+                              options: CarouselOptions(
+                                height: 200,
+                                autoPlay: true,
+                                enlargeCenterPage: true,
+                                viewportFraction: 1.0,
+                              ),
+                              // Each banner opens the screen its call-to-action names.
+                              items: [
+                                PringlesBanner.everyBrand(
+                                  onTap: () =>
+                                      Get.to(() => const HomeFilterScreen()),
+                                ),
+                                PringlesBanner.deals(
+                                  onTap: () =>
+                                      Get.to(() => const DealsOfferScreen(initialTab: 1)),
+                                ),
+                              ],
+                            ),
                             const SizedBox(
                               height: 12,
                             ),
@@ -1589,31 +1602,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                   physics: const NeverScrollableScrollPhysics(),
                                   padding: const EdgeInsets.all(15),
                                   gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
+                                      const SliverGridDelegateWithMaxCrossAxisExtent(
+                                    // Caps card width: 2 columns on phones, 3-4 on iPads.
+                                    maxCrossAxisExtent: 260,
                                     crossAxisSpacing: 10.0,
                                     mainAxisSpacing: 10.0,
                                     childAspectRatio: 0.66,
                                   ),
                                   itemCount:
-                                      productController.productData.length +
-                                          (productController.isMoreDataAvailable
-                                              ? 1
-                                              : 0),
+                                      productController.productData.length,
                                   itemBuilder: (_, index) {
-                                    if (index >=
-                                        productController.productData.length) {
-                                      return const Center(
-                                        child: SizedBox(
-                                          height: 20,
-                                          width: 20,
-                                          child: Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                        ),
-                                      );
-                                    }
-
                                     var product =
                                         productController.productData[index];
                                     var item = CartItem(
@@ -1671,49 +1669,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    product["images"].isNotEmpty
-                                                        ? Center(
-                                                            child: Hero(
-                                                              tag: item
-                                                                  .product_id,
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                        top:
-                                                                            16),
-                                                                child: ClipOval(
-                                                                  child: Image
-                                                                      .network(
-                                                                    item.image,
-                                                                    width: 110,
-                                                                    height: 110,
-                                                                    // fit: BoxFit.cover,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          )
-                                                        : Center(
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      top: 16),
-                                                              child: ClipOval(
-                                                                child:
-                                                                    Image.asset(
-                                                                  "assets/images/default_image.jpg",
-                                                                  width: 110,
-                                                                  height: 110,
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                    Expanded(
-                                                      child: Padding(
+                                                    Expanded(child: ProductCardImage(imageUrl: product["images"].isNotEmpty ? product["images"][0]["src"] : null, heroTag: item.product_id, fit: BoxFit.contain)),
+Padding(
                                                         padding:
                                                             const EdgeInsets
                                                                 .all(8.0),
@@ -1802,7 +1759,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           ],
                                                         ),
                                                       ),
-                                                    ),
                                                   ],
                                                 ),
                                                 Positioned(
@@ -1843,6 +1799,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                               },
                             ),
+                            // Pagination spinner sits below the grid so it's centered,
+                            // instead of occupying the first cell of a new grid row.
+                            if (productController.isMoreDataAvailable)
+                              const Padding(
+                                padding: EdgeInsets.only(bottom: 24),
+                                child: Center(
+                                  child: SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                ),
+                              ),
                           ],
                         ),
                       )

@@ -52,7 +52,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       children: [
                         Container(
                           height: 220,
-                          color: AppColors.appPrimaryColor,
+                          color: AppColors.appWhiteColor,
                         ),
                         Opacity(
                             opacity: 0.4,
@@ -61,17 +61,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 24),
                             child: Container(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      const Color(0xff167A52).withValues(alpha: 0.3),
-                                      const Color(0xff167A52),
-                                    ],
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                  ),
-                                ),
-                                child: Image.asset("assets/images/splash_logo.png",height: 60,width: 180,)),
+                                child: Image.asset('assets/images/pringlesWineLogo.jpeg',height: 60,width: 180,)),
                           ),
                         ),
 

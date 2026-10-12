@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Montserrat:wght@500;600;700&display=block" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #14030a; }
+
+  .banner {
+    position: relative; width: 100vw; height: 100vh; overflow: hidden;
+    background:
+      radial-gradient(ellipse 36% 70% at 74% 55%, rgba(246, 196, 92, 0.42), transparent 70%),
+      radial-gradient(ellipse 50% 90% at 12% 20%, rgba(150, 24, 52, 0.6), transparent 70%),
+      linear-gradient(120deg, #5a0f22 0%, #33081a 45%, #14030a 100%);
+    font-family: 'Montserrat', sans-serif;
+  }
+  /* soft diagonal light beam */
+  .beam {
+    position: absolute; inset: -20%;
+    background: linear-gradient(105deg, transparent 52%, rgba(255, 214, 140, 0.10) 58%, transparent 66%);
+  }
+  /* bokeh */
+  .bokeh { position: absolute; border-radius: 50%; filter: blur(6px); background: rgba(255, 196, 92, 0.35); }
+
+  /* bar counter */
+  .counter {
+    position: absolute; left: 0; right: 0; bottom: 0; height: var(--counter-h);
+    background: linear-gradient(180deg, rgba(60, 30, 8, 0.85), rgba(20, 10, 3, 0.95));
+    border-top: 1px solid rgba(255, 200, 120, 0.35);
+  }
+  .gold-rule { position: absolute; left: 0; right: 0; bottom: 0; height: var(--rule-h);
+    background: linear-gradient(90deg, #b8862b, #f6d77b, #c99a2e, #f9e08f, #b8862b); }
+
+  .copy { position: absolute; z-index: 3; }
+  .logo { position: absolute; z-index: 3; display: block; filter: invert(1); mix-blend-mode: screen; }
+  .eyebrow { color: #f2cf6b; font-weight: 700; letter-spacing: 0.32em; }
+  .headline { font-family: 'Playfair Display', serif; font-weight: 800; color: #fff; line-height: 1.02; }
+  .headline .gold {
+    font-style: italic;
+    background: linear-gradient(90deg, #f9e08f 0%, #d9a93a 45%, #fbe7a1 70%, #c99a2e 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .sub { color: rgba(255, 255, 255, 0.82); font-weight: 500; }
+  .cta {
+    display: inline-flex; align-items: center; gap: 0.6em;
+    background: linear-gradient(90deg, #f6d77b, #e2b13f);
+    color: #4a0b1c; font-weight: 700; letter-spacing: 0.16em; border-radius: 999px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  }
+
+  .scene { position: absolute; z-index: 2; }
+
+  /* ---------- Phone layout (2:1) ---------- */
+  .phone { --counter-h: 17%; --rule-h: 8px; }
+  .phone .copy { left: 6%; top: 25%; width: 48%; }
+  .phone .logo { height: 92px; left: 6%; top: 7%; }
+  .phone .eyebrow { font-size: 17px; margin-bottom: 16px; }
+  .phone .headline { font-size: 78px; }
+  .phone .sub { font-size: 23px; margin-top: 20px; }
+  .phone .cta { font-size: 19px; padding: 16px 32px; margin-top: 30px; }
+  .phone .scene { right: 3%; bottom: 0; width: 44%; height: 74%; }
+
+  /* ---------- Tablet layout (~5:1) ---------- */
+  .tablet { --counter-h: 20%; --rule-h: 4px; }
+  .tablet .copy { left: calc(3% + 185px); top: 50%; transform: translateY(-58%); display: flex; align-items: center; gap: 28px; }
+  .tablet .logo { height: 70px; left: 3%; top: 50%; margin-top: -40px; }
+  .tablet .divider { width: 1px; height: 110px; background: linear-gradient(transparent, rgba(242, 207, 107, 0.7), transparent); }
+  .tablet .eyebrow { font-size: 11px; margin-bottom: 8px; }
+  .tablet .headline { font-size: 38px; }
+  .tablet .sub { font-size: 13.5px; margin-top: 8px; }
+  .tablet .cta { font-size: 10px; padding: 7px 16px; margin-top: 10px; }
+  .tablet .scene { right: 4%; bottom: 0; width: 24%; height: 87%; }
+</style>
+</head>
+<body>
+<div class="banner" id="banner">
+  <div class="beam"></div>
+  <div class="bokeh" style="width:22px;height:22px;left:58%;top:18%"></div>
+  <div class="bokeh" style="width:14px;height:14px;left:66%;top:9%;opacity:.7"></div>
+  <div class="bokeh" style="width:30px;height:30px;left:90%;top:14%;opacity:.5"></div>
+  <div class="bokeh" style="width:12px;height:12px;left:84%;top:30%;opacity:.8"></div>
+  <div class="bokeh" style="width:18px;height:18px;left:52%;top:70%;opacity:.4"></div>
+  <div class="counter"></div>
+
+  <!-- Raised glasses -->
+  <svg class="scene" viewBox="0 0 560 520" preserveAspectRatio="xMidYMax meet">
+    <defs>
+      <radialGradient id="glow">
+        <stop offset="0" stop-color="#ffd27a" stop-opacity=".38"/><stop offset=".55" stop-color="#f0a040" stop-opacity=".12"/><stop offset="1" stop-color="#f0a040" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="glass" x1="0" x2="1">
+        <stop offset="0" stop-color="#fff" stop-opacity=".10"/><stop offset=".5" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity=".08"/>
+      </linearGradient>
+      <linearGradient id="redWine" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#b3203f"/><stop offset="1" stop-color="#4d0616"/>
+      </linearGradient>
+      <linearGradient id="bubbly" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fbe7a1"/><stop offset="1" stop-color="#d9a93a"/>
+      </linearGradient>
+      <linearGradient id="lager" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#f6b93b"/><stop offset="1" stop-color="#b8661a"/>
+      </linearGradient>
+      <linearGradient id="gold" x1="0" x2="1">
+        <stop offset="0" stop-color="#9c7020"/><stop offset=".5" stop-color="#f6d77b"/><stop offset="1" stop-color="#a8781f"/>
+      </linearGradient>
+      <linearGradient id="fadeReflect" gradientUnits="userSpaceOnUse" x1="0" y1="300" x2="0" y2="400">
+        <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".3"/>
+      </linearGradient>
+      <mask id="reflectMask" maskUnits="userSpaceOnUse" x="0" y="0" width="560" height="420"><rect x="0" y="0" width="560" height="420" fill="url(#fadeReflect)"/></mask>
+
+      <!-- Red wine glass: 100 wide, base at y=200 -->
+      <g id="wineGlass">
+        <path d="M14,8 Q12,96 50,112 Q88,96 86,8 Z" fill="url(#glass)" stroke="#fff" stroke-opacity=".35" stroke-width="1.2"/>
+        <path d="M17,56 Q20,100 50,108 Q80,100 83,56 Q50,62 17,56 Z" fill="url(#redWine)"/>
+        <ellipse cx="50" cy="57" rx="33" ry="4" fill="#d43a5a" opacity=".7"/>
+        <rect x="48" y="110" width="4" height="84" fill="#fff" opacity=".4"/>
+        <ellipse cx="50" cy="196" rx="28" ry="5" fill="#fff" opacity=".35"/>
+        <path d="M22,16 Q21,60 30,86" stroke="#fff" stroke-opacity=".5" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </g>
+
+      <!-- Champagne flute: base at y=230 -->
+      <g id="flute">
+        <path d="M36,6 Q33,118 50,138 Q67,118 64,6 Z" fill="url(#glass)" stroke="#fff" stroke-opacity=".35" stroke-width="1.2"/>
+        <path d="M37,34 Q35,116 50,134 Q65,116 63,34 Z" fill="url(#bubbly)" opacity=".92"/>
+        <circle cx="46" cy="110" r="1.6" fill="#fff" opacity=".8"/><circle cx="53" cy="92" r="1.3" fill="#fff" opacity=".8"/>
+        <circle cx="48" cy="72" r="1.5" fill="#fff" opacity=".8"/><circle cx="55" cy="55" r="1.2" fill="#fff" opacity=".8"/>
+        <circle cx="45" cy="45" r="1.1" fill="#fff" opacity=".8"/>
+        <rect x="48.5" y="138" width="3" height="86" fill="#fff" opacity=".4"/>
+        <ellipse cx="50" cy="226" rx="22" ry="4.5" fill="#fff" opacity=".35"/>
+        <path d="M40,14 Q39,70 43,108" stroke="#fff" stroke-opacity=".5" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </g>
+
+      <!-- Beer pint: base at y=210 -->
+      <g id="pint">
+        <path d="M8,30 L92,30 L84,210 L16,210 Z" fill="url(#glass)" stroke="#fff" stroke-opacity=".35" stroke-width="1.2"/>
+        <path d="M10,58 L90,58 L84,206 L16,206 Z" fill="url(#lager)" opacity=".95"/>
+        <path d="M8,58 q8,-30 22,-24 q8,-16 24,-10 q14,-12 28,2 q12,2 10,32 z" fill="#fff6e3"/>
+        <circle cx="34" cy="120" r="2" fill="#fff" opacity=".7"/><circle cx="58" cy="150" r="1.6" fill="#fff" opacity=".7"/>
+        <circle cx="46" cy="96" r="1.4" fill="#fff" opacity=".7"/><circle cx="66" cy="110" r="2" fill="#fff" opacity=".7"/>
+        <circle cx="40" cy="176" r="1.8" fill="#fff" opacity=".7"/>
+        <path d="M18,66 L24,196" stroke="#fff" stroke-opacity=".45" stroke-width="4" stroke-linecap="round"/>
+      </g>
+
+      <!-- 4-point sparkle -->
+      <path id="spark" d="M0,-12 C2,-3 3,-2 12,0 C3,2 2,3 0,12 C-2,3 -3,2 -12,0 C-3,-2 -2,-3 0,-12 Z" fill="#f6d77b"/>
+
+      <g id="lineup">
+        <use href="#flute" transform="translate(28,172)"/>
+        <!-- two red wines tilted toward each other, clinking -->
+        <use href="#wineGlass" transform="translate(150,200) rotate(9 50 196)"/>
+        <use href="#wineGlass" transform="translate(238,200) rotate(-9 50 196)"/>
+        <use href="#pint" transform="translate(372,190)"/>
+      </g>
+    </defs>
+
+    <ellipse cx="280" cy="270" rx="270" ry="190" fill="url(#glow)"/>
+    <use href="#lineup"/>
+    <!-- sparkles where the glasses clink -->
+    <use href="#spark" transform="translate(244,176) scale(1.3)"/>
+    <use href="#spark" transform="translate(212,150) scale(.6)" opacity=".8"/>
+    <use href="#spark" transform="translate(282,140) scale(.8)" opacity=".9"/>
+    <use href="#spark" transform="translate(120,150) scale(.5)" opacity=".7"/>
+    <use href="#spark" transform="translate(470,160) scale(.55)" opacity=".7"/>
+    <g transform="translate(0,800) scale(1,-1)"><g mask="url(#reflectMask)">
+      <use href="#lineup"/>
+    </g></g>
+  </svg>
+
+  <img class="logo" src="../../assets/images/pringlesWineLogo.jpeg">
+  <div class="copy">
+    <div class="divider"></div>
+    <div class="text">
+      <div class="eyebrow">WEEKLY DEALS</div>
+      <div class="headline">Raise a Glass.<br class="br"><span class="gold"> Save More.</span></div>
+      <div class="sub">Fresh offers on beer, wine &amp; spirits</div>
+      <div class="cta-wrap"><span class="cta">SEE DEALS <span>→</span></span></div>
+    </div>
+  </div>
+  <div class="gold-rule"></div>
+</div>
+<script>
+  // ?layout=phone|tablet
+  const layout = new URLSearchParams(location.search).get('layout') || 'phone';
+  document.getElementById('banner').classList.add(layout);
+  if (layout === 'tablet') document.querySelector('.br').remove();
+</script>
+</body>
+</html>

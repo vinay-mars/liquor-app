@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pringles_fine_wine/controller/product_controller.dart';
 import 'package:pringles_fine_wine/utils/app_colors.dart';
-import 'package:pringles_fine_wine/utils/featured_products.dart';
-import 'package:pringles_fine_wine/utils/on_sale.dart';
-import 'package:pringles_fine_wine/utils/top_rated.dart';
+import 'package:pringles_fine_wine/utils/product_query_tab.dart';
 
 class DealsOfferScreen extends StatefulWidget {
-   const DealsOfferScreen({super.key});
+  /// 0 = Featured, 1 = On Sale, 2 = Best Sellers.
+  final int initialTab;
+
+  const DealsOfferScreen({super.key, this.initialTab = 0});
 
   @override
   State<DealsOfferScreen> createState() => _DealsOfferScreenState();
@@ -18,10 +18,9 @@ class _DealsOfferScreenState extends State<DealsOfferScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ProductController>(
-      builder: (productController) {
         return DefaultTabController(
           length: 3, // Number of tabs
+          initialIndex: widget.initialTab,
           child: Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
@@ -53,23 +52,34 @@ class _DealsOfferScreenState extends State<DealsOfferScreen> {
                 tabs: const [
                   Tab(text: "Featured"),
                   Tab(text: "On Sale"),
-                  Tab(text: "Top Rated"),
+                  Tab(text: "Best Sellers"),
                 ],
               ),
             ),
             body:
+            // Each tab asks WooCommerce for its own products.
             const TabBarView(
               physics: NeverScrollableScrollPhysics(),
               children: [
-                FeaturedTab(),
-                OnSaleTab(),
-                TopRatedTab(),
+                ProductQueryTab(
+                  query: "featured=true",
+                  emptyMessage: "No featured products right now.\nCheck back soon!",
+                  emptyIcon: Icons.star_outline,
+                ),
+                ProductQueryTab(
+                  query: "on_sale=true",
+                  emptyMessage: "No sale items right now.\nCheck back soon for new deals!",
+                  emptyIcon: Icons.local_offer_outlined,
+                ),
+                ProductQueryTab(
+                  query: "orderby=popularity&order=desc",
+                  emptyMessage: "No best sellers to show yet.",
+                  emptyIcon: Icons.trending_up,
+                ),
               ],
             )
           ),
         );
-      }
-    );
   }
 }
 

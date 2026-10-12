@@ -8,6 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../utils/app_colors.dart';
+import 'bottom_navbar.dart';
 
 class AgeGateScreen extends StatefulWidget {
   const AgeGateScreen({super.key});
@@ -22,7 +23,12 @@ class _AgeGateScreenState extends State<AgeGateScreen> {
 
   void _confirmOfAge() {
     box.write('age_verified', true);
-    Get.back();
+    // Shown as the root route on first launch, or pushed on top of login/register.
+    if (Navigator.of(context).canPop()) {
+      Get.back();
+    } else {
+      Get.off(() => BottomNavbar(selectedIndex: 0));
+    }
   }
 
   @override
@@ -56,7 +62,7 @@ class _AgeGateScreenState extends State<AgeGateScreen> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'You must be 21 years of age or older to enter this site.',
+                      'You must be 21 years of age or older to use this app.',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.roboto(
                         color: AppColors.appWhiteColor,

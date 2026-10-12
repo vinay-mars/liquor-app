@@ -161,7 +161,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                   icon: Obx(() => badges.Badge(
                     badgeContent: Text(cartController.cartItems.length.toString(),
                       style: GoogleFonts.roboto(color: Colors.white,fontSize: 15),),
-                    child: Image.asset("assets/images/cart_icon.png",height: 20,width: 20,
+                    child: Icon(Icons.shopping_cart_outlined, size: 22,
                       color: widget.selectedIndex==3?AppColors.appPrimaryColor:const Color(0xff959396),
                     ),
                   )),

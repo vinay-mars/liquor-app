@@ -68,7 +68,8 @@ class ProductController extends GetxController {
             productData.addAll(apiResponse.response!.data!); // Append new data
           }
           currentPage = page;
-          isMoreDataAvailable = apiResponse.response!.data!.length > 0; // Check if more data is available
+          // A short page (repo requests per_page=20) means this was the last one.
+          isMoreDataAvailable = apiResponse.response!.data!.length >= 20;
           update();
         }
       } else {

@@ -123,9 +123,9 @@ class AuthRepo {
 
   // remove user token from local storage
   removeUserToken() async{
-    await SharedPreferences.getInstance();
+    // Clear the customer id too, otherwise profile/order calls keep using the previous user.
+    await sharedPreferences.remove("customerId");
     return sharedPreferences.remove(AppStrings.token);
-
   }
 
   //auth token

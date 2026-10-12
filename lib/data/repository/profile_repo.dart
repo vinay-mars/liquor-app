@@ -29,6 +29,11 @@ class ProfileRepo {
         print("check Id >>> $customerId");
       }
 
+      // Guests and logged-out users have no customer record to fetch.
+      if (customerId == null) {
+        return ApiResponse.withError("Not logged in");
+      }
+
       Response response = await dioClient.get(
         "${AppStrings.profileUrl}$customerId",
         options: Options(headers: {
@@ -155,8 +160,10 @@ class ProfileRepo {
         print("check Id >>> $customerId");
       }
 
+      // WooCommerce customers can't be trashed, so the delete must be forced.
       Response response = await dioClient.delete(
         "${AppStrings.profileUrl}$customerId",
+        queryParameters: {"force": true},
         options: Options(headers: {
           "Content-Type": "application/json",
           'Authorization': basicAuth,

@@ -45,18 +45,24 @@ class ProductCategoryController extends GetxController {
     isMoreDataAvailable.value = true; // Reset availability of more data
   }
 
-  /// Get all product Category wise Data with pagination
-  Future<dynamic> getProductCategoryWiseData(dynamic id, {int page = 1}) async {
+  bool _isLoadingMore = false;
+
+  /// Get all product Category wise Data with pagination.
+  /// Returns true when a page was fetched successfully.
+  Future<bool> getProductCategoryWiseData(dynamic id, {int page = 1}) async {
     // Prevent multiple calls or if no more data is available
-    if (_isLoadingWise || !isMoreDataAvailable.value) return;
+    if (_isLoadingWise || _isLoadingMore || !isMoreDataAvailable.value) return false;
 
     // Set loading state only for initial load
     if (page == 1) {
       _isLoadingWise = true;
       update();
+    } else {
+      _isLoadingMore = true;
     }
 
     ApiResponse apiResponse = await productCategoryRepo.getProductCategoryWiseData(id, page);
+    _isLoadingMore = false;
 
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       // Only set loading state to false if this is the first page
@@ -76,13 +82,17 @@ class ProductCategoryController extends GetxController {
             productCategoryWiseData.addAll(newData); // Append new data
           }
           currentPage.value = page; // Update the current page
+          // A short page (repo requests per_page=20) means this was the last one.
+          if (newData.length < 20) isMoreDataAvailable.value = false;
         }
         update();
       }
+      return true;
     } else {
       // Handle errors
       _isLoadingWise = false;
       update();
+      return false;
     }
   }
 }

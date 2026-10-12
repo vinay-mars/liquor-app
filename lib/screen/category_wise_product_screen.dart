@@ -1,3 +1,4 @@
+import 'package:pringles_fine_wine/utils/product_card_image.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,19 +27,34 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
   final ScrollController _scrollController = ScrollController();
 
   void _scrollListener() {
-    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-      // Load more data when reaching the bottom
-      Get.find<ProductCategoryController>().getProductCategoryWiseData(widget.id, page: Get.find<ProductCategoryController>().currentPage.value + 1);
+    _loadMoreIfNearBottom();
+  }
+
+  /// Loads the next page when scrolled near the bottom, or when the grid doesn't
+  /// fill the screen yet (e.g. on iPad, where no scroll event would ever fire).
+  Future<void> _loadMoreIfNearBottom() async {
+    final controller = Get.find<ProductCategoryController>();
+    if (!_scrollController.hasClients || !controller.isMoreDataAvailable.value) return;
+    final position = _scrollController.position;
+    if (position.pixels >= position.maxScrollExtent - 300) {
+      final loaded = await controller.getProductCategoryWiseData(widget.id, page: controller.currentPage.value + 1);
+      if (!loaded) return; // already loading, or the request failed
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _loadMoreIfNearBottom();
+      });
     }
   }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       _scrollController.addListener(_scrollListener);
       Get.find<ProductCategoryController>().resetPagination();
-      Get.find<ProductCategoryController>().getProductCategoryWiseData(widget.id,page: 1);
+      await Get.find<ProductCategoryController>().getProductCategoryWiseData(widget.id,page: 1);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _loadMoreIfNearBottom();
+      });
     });
   }
 
@@ -76,9 +92,7 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                         child: badges.Badge(
                           badgeContent: Text(cartController.cartItems.length.toString(),
                             style: GoogleFonts.roboto(color: Colors.white,fontSize: 15),),
-                          child: Image.asset("assets/images/cart_icon.png",height: 20,width: 20,
-                              color: AppColors.appWhiteColor
-                          ),
+                          child: const Icon(Icons.shopping_cart_outlined, size: 22, color: AppColors.appWhiteColor),
                         ),
                       )),
                     )
@@ -97,8 +111,9 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                 controller: _scrollController,
                 shrinkWrap: true,
                 padding: const EdgeInsets.all(15),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  // Caps card width: 2 columns on phones, 3-4 on iPads.
+                  maxCrossAxisExtent: 260,
                   crossAxisSpacing: 10.0,
                   mainAxisSpacing: 10.0,
                   childAspectRatio: 0.66,
@@ -155,35 +170,8 @@ class _CategoryWiseProductScreenState extends State<CategoryWiseProductScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
 
-                              product["images"].isNotEmpty?
-                              Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 16),
-                                  child: Hero(
-                                    tag: item.product_id,
-                                    child: ClipOval(
-                                      child: Image.network(
-                                        item.image,
-                                        width: 90,
-                                        height: 90,
-                                        // fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ):
-                              Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 16),
-                                  child: ClipOval(
-                                    child: Image.asset("assets/images/default_image.jpg",
-                                      width: 110,
-                                      height: 110,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              // Image takes the space the text leaves, so the card never overflows.
+                              Expanded(child: ProductCardImage(imageUrl: product["images"].isNotEmpty ? product["images"][0]["src"] : null, heroTag: item.product_id, fit: BoxFit.contain)),
 
                               const SizedBox(height: 4,),
 

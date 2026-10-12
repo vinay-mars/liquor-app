@@ -1,5 +1,4 @@
-# Uncomment this line to define a global platform for your project
-# platform :ios, '12.0'
+platform :ios, '15.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -40,5 +39,15 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+
+    # audio_session (pulled in by flutter_widget_from_html via just_audio) includes
+    # microphone APIs, which makes App Store Connect demand NSMicrophoneUsageDescription.
+    # The app never records audio, so compile that code out.
+    if target.name == 'audio_session'
+      target.build_configurations.each do |config|
+        config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)']
+        config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] << 'AUDIO_SESSION_MICROPHONE=0'
+      end
+    end
   end
 end

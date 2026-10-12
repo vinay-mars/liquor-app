@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../controller/auth_controller.dart';
 import '../controller/profile_controller.dart';
 import '../utils/app_colors.dart';
+import 'bottom_navbar.dart';
 
 
 class MyProfileScreen extends StatefulWidget {
@@ -32,6 +35,42 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
     _emailController.text = widget.email??"";
     _phoneController.text = widget.phone??"";
     super.initState();
+  }
+
+  void _confirmDeleteAccount(ProfileController profileController) {
+    Get.dialog(
+      AlertDialog(
+        title: Text('Delete Account', style: GoogleFonts.roboto(fontWeight: FontWeight.bold, fontSize: 18)),
+        content: Text(
+          'This permanently deletes your account and profile details. This cannot be undone.',
+          style: GoogleFonts.roboto(),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text('Cancel', style: GoogleFonts.roboto()),
+          ),
+          TextButton(
+            onPressed: () async {
+              Get.back();
+              final deleted = await profileController.deleteUser();
+              if (deleted) {
+                Get.find<AuthController>().removeUserToken();
+                final preferences = await SharedPreferences.getInstance();
+                await preferences.remove("customerId");
+                Get.offAll(() => BottomNavbar(selectedIndex: 0));
+                Get.snackbar('Account Deleted', 'Your account has been deleted.',
+                    snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.white70);
+              } else {
+                Get.snackbar('Delete Failed', 'We could not delete your account. Please try again.',
+                    snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red.withValues(alpha: 0.15));
+              }
+            },
+            child: Text('Delete', style: GoogleFonts.roboto(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -180,6 +219,27 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                           fontWeight: FontWeight.w500,
                           fontSize: 15,
                           color: AppColors.appWhiteColor
+                        ),),
+                      ),
+
+                      const SizedBox(height: 24),
+
+                      // Required by App Store Review Guideline 5.1.1(v): accounts created in-app must be deletable in-app.
+                      TextButton.icon(
+                        onPressed: profileController.isLoadingDelete
+                            ? null
+                            : () => _confirmDeleteAccount(profileController),
+                        icon: profileController.isLoadingDelete
+                            ? const SizedBox(
+                                height: 16,
+                                width: 16,
+                                child: CircularProgressIndicator(strokeWidth: 2, color: Colors.red),
+                              )
+                            : const Icon(Icons.delete_outline, color: Colors.red),
+                        label: Text('Delete Account',style: GoogleFonts.roboto(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          color: Colors.red
                         ),),
                       ),
                     ],

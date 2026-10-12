@@ -49,6 +49,8 @@ class ProductSearchController extends GetxController {
           update();
         }
         currentPage.value = page;
+        // A short page (repo requests per_page=20) means this was the last one.
+        if (newData.length < 20) isMoreDataAvailable.value = false;
         update();
       }
     } else {

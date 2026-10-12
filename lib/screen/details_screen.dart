@@ -1,5 +1,6 @@
-import 'package:floating_draggable_widget/floating_draggable_widget.dart';
+import 'package:pringles_fine_wine/utils/product_card_image.dart';
 import 'package:flutter/foundation.dart';
+import 'package:floating_draggable_widget/floating_draggable_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pannable_rating_bar/flutter_pannable_rating_bar.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -122,9 +123,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   child: Obx(() => badges.Badge(
                     badgeContent: Text(cartController.cartItems.length.toString(),
                       style: GoogleFonts.roboto(color: Colors.white,fontSize: 15),),
-                    child: Image.asset("assets/images/cart_icon.png",height: 24,width: 24,
-                      color: AppColors.appWhiteColor,
-                    ),
+                    child: const Icon(Icons.shopping_cart_outlined, color: AppColors.appWhiteColor, size: 26),
                   ))
               ),
               floatingWidgetHeight: 60,
@@ -154,11 +153,20 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       ),
                       child: Row(
                         children: [
-                          IconButton(
-                            icon:const Icon(Icons.share,color: AppColors.appWhiteColor),
-                            onPressed: (){
-                              Share.share('${productController.productDetailsData["permalink"]}');
-                            },
+                          Builder(
+                            builder: (buttonContext) {
+                              return IconButton(
+                                icon:const Icon(Icons.share,color: AppColors.appWhiteColor),
+                                onPressed: (){
+                                  // iPad presents the share sheet as a popover, which needs an anchor rect.
+                                  final box = buttonContext.findRenderObject() as RenderBox?;
+                                  SharePlus.instance.share(ShareParams(
+                                    text: '${productController.productDetailsData["permalink"]}',
+                                    sharePositionOrigin: box == null ? null : box.localToGlobal(Offset.zero) & box.size,
+                                  ));
+                                },
+                              );
+                            }
                           ),
 
                           Padding(
@@ -1112,8 +1120,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 8),
-                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
+                              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                                // Caps card width: 2 columns on phones, 3-4 on iPads.
+                                maxCrossAxisExtent: 260,
                                 crossAxisSpacing: 10.0,
                                 mainAxisSpacing: 10.0,
                                 childAspectRatio: 0.62,
@@ -1177,38 +1186,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
 
-                                                  product["images"].isNotEmpty?
-                                                  Center(
-                                                    child: Hero(
-                                                      tag: item.product_id,
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.only(top: 16),
-                                                        child: ClipOval(
-                                                          child: Image.network(
-                                                            item.image,
-                                                            width: 110,
-                                                            height: 110,
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ):
-                                                  Center(
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.only(top: 16),
-                                                      child: ClipOval(
-                                                        child: Image.asset("assets/images/default_image.jpg",
-                                                          width: 110,
-                                                          height: 110,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-
-                                                  Expanded(
-                                                    child: Padding(
+                                                  Expanded(child: ProductCardImage(imageUrl: product["images"].isNotEmpty ? product["images"][0]["src"] : null, heroTag: item.product_id, fit: BoxFit.cover)),
+Padding(
                                                       padding: const EdgeInsets.all(8.0),
                                                       child: Column(
                                                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1255,7 +1234,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                         ],
                                                       ),
                                                     ),
-                                                  ),
 
 
                                                 ],

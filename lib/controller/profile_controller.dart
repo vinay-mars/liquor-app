@@ -38,6 +38,8 @@ class ProfileController extends GetxController{
       }
     } else {
       _isLoading = false;
+      // Logged out: drop the previous user's profile so it isn't shown or prefilled.
+      if (apiResponse.error == "Not logged in") profileData = null;
       update();
     }
   }
@@ -104,13 +106,15 @@ class ProfileController extends GetxController{
     }
   }
 
-  Future<dynamic> deleteUser() async {
+  /// Returns true when the WooCommerce customer was deleted.
+  Future<bool> deleteUser() async {
     _isLoadingDelete = true;
     update();
     ApiResponse apiResponse = await profileRepo.deleteUser();
 
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       _isLoadingDelete = false;
+      profileData = null;
       update();
       if (apiResponse.response!.data != null) {
         response = apiResponse.response!.data!;
@@ -119,9 +123,11 @@ class ProfileController extends GetxController{
         }
         update();
       }
+      return true;
     } else {
       _isLoadingDelete = false;
       update();
+      return false;
     }
   }
 
